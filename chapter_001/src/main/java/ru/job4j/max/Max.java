@@ -9,12 +9,23 @@ package ru.job4j.max;
 public class Max {
 
     /**
-     * Идеальный вес для мужщины.
+     * Находит максимальное из двух чисел.
      * @param first Первое целое число.
      * @param second Второе целое число.
      * @return большее из двух чисел.
      */
     public int max(int first, int second) {
         return (first > second) ? first : second;
+    }
+
+    /**
+     * Находит максимальное из трёх чисел.
+     * @param first Первое целое число.
+     * @param second Второе целое число.
+     * @param third Третье целое число.
+     * @return большее из трёх чисел.
+     */
+    public int max(int first, int second, int third) {
+        return this.max(this.max(first, second), third);
     }
 }

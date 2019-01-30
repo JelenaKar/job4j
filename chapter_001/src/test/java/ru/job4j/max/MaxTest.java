@@ -40,4 +40,14 @@ public class MaxTest {
         int result = maxim.max(1, 1);
         assertThat(result, is(1));
     }
+
+    /**
+     * Test find one from three numbers.
+     */
+    @Test
+    public void whenHaveThreeNumbers() {
+        Max maxim = new Max();
+        int result = maxim.max(50, 100, -3);
+        assertThat(result, is(100));
+    }
 }
