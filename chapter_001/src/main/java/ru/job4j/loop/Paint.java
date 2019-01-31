@@ -28,4 +28,46 @@ public class Paint {
         }
         return screen.toString();
     }
+
+    /**
+     * Рисует правую полупирамиду заданной высоты.
+     * @param height высота пирамиды.
+     * @return изображение правой полупирамиды заданной высоты.
+     */
+    public String rightTrl(int height) {
+        StringBuilder screen = new StringBuilder();
+        int width = height;
+        for (int row = 0; row != height; row++) {
+            for (int column = 0; column != width; column++) {
+                if (row >= column) {
+                    screen.append("^");
+                } else {
+                    screen.append(" ");
+                }
+            }
+            screen.append(System.lineSeparator());
+        }
+        return screen.toString();
+    }
+
+    /**
+     * Рисует левую полупирамиду заданной высоты.
+     * @param height высота пирамиды.
+     * @return изображение левой полупирамиды заданной высоты.
+     */
+    public String leftTrl(int height) {
+        StringBuilder screen = new StringBuilder();
+        int width = height;
+        for (int row = 0; row != height; row++) {
+            for (int column = 0; column != width; column++) {
+                if (row >= width - column - 1) {
+                    screen.append("^");
+                } else {
+                    screen.append(" ");
+                }
+            }
+            screen.append(System.lineSeparator());
+        }
+        return screen.toString();
+    }
 }
