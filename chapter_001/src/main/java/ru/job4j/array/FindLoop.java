@@ -1,4 +1,4 @@
-package ru.job4j.loop;
+package ru.job4j.array;
 
 /**
  * Класс поиска значения в массиве.
