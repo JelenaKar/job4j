@@ -18,6 +18,7 @@ public class Check {
         for (boolean elem : data) {
             if (elem != first) {
                 result = false;
+                break;
             }
         }
         return result;
