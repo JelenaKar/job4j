@@ -1,5 +1,7 @@
 package ru.job4j.loop;
 
+import java.util.function.BiPredicate;
+
 /**
  * Рисование двумерной пирамиды в псевдографике.
  * @author Elena Kartashova (kartashova.ee@yandex.ru)
@@ -14,11 +16,18 @@ public class Paint {
      * @return изображение пирамиды заданной высоты.
      */
     public String pyramid(int height) {
+        return this.loopBy(
+                height,
+                2 * height - 1,
+                (row, column) -> row >= height - column - 1 && row + height - 1 >= column
+        );
+    }
+
+    private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
-        int width = 2 * height - 1;
         for (int row = 0; row != height; row++) {
-            for (int column = 0; column != width; column++) {
-                if (row >= height - column - 1 && row + height - 1 >= column) {
+            for (int column = 0; column != weight; column++) {
+                if (predict.test(row, column)) {
                     screen.append("^");
                 } else {
                     screen.append(" ");
