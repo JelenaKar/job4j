@@ -18,11 +18,11 @@ public class MergeTest {
      */
     @Test
     public void whenFirstArrayIsLonger() {
-        Merge mrg = new Merge();
+        Merge merging = new Merge();
         int[] arr1 = {1, 3, 8, 10, 15};
         int[] arr2 = {4, 5, 6, 9};
         int[] expected = {1, 3, 4, 5, 6, 8, 9, 10, 15};
-        assertThat(mrg.merge(arr1, arr2), is(expected));
+        assertThat(merging.merge(arr1, arr2), is(expected));
     }
 
     /**
@@ -30,10 +30,10 @@ public class MergeTest {
      */
     @Test
     public void whenSecondArrayIsLonger() {
-        Merge mrg = new Merge();
+        Merge merging = new Merge();
         int[] arr1 = {1, 3, 8, 10};
         int[] arr2 = {4, 5, 6, 10, 12};
         int[] expected = {1, 3, 4, 5, 6, 8, 10, 10, 12};
-        assertThat(mrg.merge(arr1, arr2), is(expected));
+        assertThat(merging.merge(arr1, arr2), is(expected));
     }
 }

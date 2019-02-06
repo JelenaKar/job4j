@@ -11,13 +11,13 @@ public class FindLoop {
     /**
      * Метод простейшего поиска значения в массиве.
      * @param data массив, в котором производится поиск.
-     * @param el искомое значение.
+     * @param elem искомое значение.
      * @return индекс, по которому элемент найден в массиве, -1 если не найден.
      */
-    public int indexOf(int[] data, int el) {
+    public int indexOf(int[] data, int elem) {
         int res = -1;
         for (int i = 0; i < data.length; i++) {
-            if (data[i] == el) {
+            if (data[i] == elem) {
                 res = i;
                 break;
             }

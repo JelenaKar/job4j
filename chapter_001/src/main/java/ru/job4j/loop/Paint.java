@@ -49,10 +49,10 @@ public class Paint {
         );
     }
 
-    private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
+    private String loopBy(int height, int width, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
         for (int row = 0; row != height; row++) {
-            for (int column = 0; column != weight; column++) {
+            for (int column = 0; column != width; column++) {
                 if (predict.test(row, column)) {
                     screen.append("^");
                 } else {

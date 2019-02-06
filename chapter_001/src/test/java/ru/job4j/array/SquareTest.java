@@ -18,9 +18,8 @@ public class SquareTest {
      */
     @Test
     public void whenBound3ThenRes149() {
-
-        Square sqr = new Square();
-        int[] result = sqr.calculate(3);
+        Square square = new Square();
+        int[] result = square.calculate(3);
         int[] expect = {1, 4, 9};
         assertThat(result, is(expect));
     }
@@ -30,9 +29,8 @@ public class SquareTest {
      */
     @Test
     public void whenBound5ThenRes1491625() {
-
-        Square sqr = new Square();
-        int[] result = sqr.calculate(5);
+        Square square = new Square();
+        int[] result = square.calculate(5);
         int[] expect = {1, 4, 9, 16, 25};
         assertThat(result, is(expect));
     }
@@ -42,9 +40,8 @@ public class SquareTest {
      */
     @Test
     public void whenBound7ThenRes14916253649() {
-
-        Square sqr = new Square();
-        int[] result = sqr.calculate(7);
+        Square square = new Square();
+        int[] result = square.calculate(7);
         int[] expect = {1, 4, 9, 16, 25, 36, 49};
         assertThat(result, is(expect));
     }

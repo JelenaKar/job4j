@@ -18,9 +18,9 @@ public class FindLoopTest {
      */
     @Test
     public void whenArrayHas5Then2() {
-        FindLoop find = new FindLoop();
+        FindLoop search = new FindLoop();
         int[] arr = {100, 0, 5, 17, 22};
-        int res = find.indexOf(arr, 5);
+        int res = search.indexOf(arr, 5);
         assertThat(res, is(2));
     }
 
@@ -29,9 +29,9 @@ public class FindLoopTest {
      */
     @Test
     public void whenArrayHasnt5ThenMin1() {
-        FindLoop find = new FindLoop();
+        FindLoop search = new FindLoop();
         int[] arr = {100, 0, 10};
-        int res = find.indexOf(arr, 5);
+        int res = search.indexOf(arr, 5);
         assertThat(res, is(-1));
     }
 }

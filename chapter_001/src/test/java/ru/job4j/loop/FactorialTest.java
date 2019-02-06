@@ -18,8 +18,8 @@ public class FactorialTest {
      */
     @Test
     public void whenCalculateFactorialForFiveThenOneHundreedTwenty() {
-        Factorial cnt = new Factorial();
-        int result = cnt.calc(5);
+        Factorial factorial = new Factorial();
+        int result = factorial.calc(5);
         assertThat(result, is(120));
     }
 
@@ -28,8 +28,8 @@ public class FactorialTest {
      */
     @Test
     public void whenCalculateFactorialForZeroThenOne() {
-        Factorial cnt = new Factorial();
-        int result = cnt.calc(0);
+        Factorial factorial = new Factorial();
+        int result = factorial.calc(0);
         assertThat(result, is(1));
     }
 }

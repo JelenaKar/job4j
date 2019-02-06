@@ -20,15 +20,13 @@ public class ArrayChar {
      */
     public boolean startWith(String prefix) {
         boolean result = true;
-        char[] values = prefix.toCharArray();
-
-        for (int i = 0; i < values.length; i++) {
-            if (values[i] != this.data[i]) {
+        char[] chars = prefix.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != this.data[i]) {
                 result = false;
                 break;
             }
         }
-
         return result;
     }
 }

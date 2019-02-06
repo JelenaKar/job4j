@@ -10,13 +10,13 @@ public class Square {
 
     /**
      * Метод вычисления квадратов натуральных чисел.
-     * @param n количество натуральных чисел (длина массива).
+     * @param len количество натуральных чисел (длина массива).
      * @return массив квадратов натуральных чисел заданной длины.
      */
-    public int[] calculate(int n) {
+    public int[] calculate(int len) {
 
-        int[] result = new int[n];
-        for (int i = 0; i < n; i++) {
+        int[] result = new int[len];
+        for (int i = 0; i < len; i++) {
             result[i] = (i + 1) * (i + 1);
         }
 

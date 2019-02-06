@@ -18,9 +18,9 @@ public class CheckTest {
      */
     @Test
     public void whenDataMonoByTrueThenTrueOdd() {
-        Check check = new Check();
+        Check array = new Check();
         boolean[] input = new boolean[] {true, true, true};
-        boolean result = check.mono(input);
+        boolean result = array.mono(input);
         assertThat(result, is(true));
     }
 
@@ -29,9 +29,9 @@ public class CheckTest {
      */
     @Test
     public void whenDataNotMonoByTrueThenFalseOdd() {
-        Check check = new Check();
+        Check array = new Check();
         boolean[] input = new boolean[] {true, false, true};
-        boolean result = check.mono(input);
+        boolean result = array.mono(input);
         assertThat(result, is(false));
     }
 
@@ -40,9 +40,9 @@ public class CheckTest {
      */
     @Test
     public void whenDataMonoByFalseThenTrueEven() {
-        Check check = new Check();
+        Check array = new Check();
         boolean[] input = new boolean[] {false, false, false, false};
-        boolean result = check.mono(input);
+        boolean result = array.mono(input);
         assertThat(result, is(true));
     }
 
@@ -51,9 +51,9 @@ public class CheckTest {
      */
     @Test
     public void whenDataNotMonoByTrueThenFalseEven() {
-        Check check = new Check();
+        Check array = new Check();
         boolean[] input = new boolean[] {true, true, false, true};
-        boolean result = check.mono(input);
+        boolean result = array.mono(input);
         assertThat(result, is(false));
     }
 }

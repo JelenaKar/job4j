@@ -22,14 +22,12 @@ public class Merge {
         while ((i < n) && (j < m)) {
             arr3[k++] = (arr1[i] < arr2[j]) ? arr1[i++] : arr2[j++];
         }
-
         while (i < n) {
             arr3[k++] = arr1[i++];
         }
         while (j < m) {
             arr3[k++] = arr2[j++];
         }
-
         return arr3;
     }
 

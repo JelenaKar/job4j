@@ -18,13 +18,13 @@ public class MatrixCheckTest {
      */
     @Test
     public void whenDataMonoByTrueThenTrueOdd() {
-        MatrixCheck check = new MatrixCheck();
+        MatrixCheck matrix = new MatrixCheck();
         boolean[][] input = new boolean[][] {
                 {true, true, true},
                 {false, true, true},
                 {true, false, true}
         };
-        boolean result = check.mono(input);
+        boolean result = matrix.mono(input);
         assertThat(result, is(true));
     }
 
@@ -33,13 +33,13 @@ public class MatrixCheckTest {
      */
     @Test
     public void whenDataNotMonoByTrueThenFalseOdd() {
-        MatrixCheck check = new MatrixCheck();
+        MatrixCheck matrix = new MatrixCheck();
         boolean[][] input = new boolean[][] {
                 {true, true, false},
                 {false, false, true},
                 {true, false, true}
         };
-        boolean result = check.mono(input);
+        boolean result = matrix.mono(input);
         assertThat(result, is(false));
     }
 
@@ -48,11 +48,11 @@ public class MatrixCheckTest {
      */
     @Test
     public void whenDataMonoByTrueThenTrueEven() {
-        MatrixCheck check = new MatrixCheck();
+        MatrixCheck matrix = new MatrixCheck();
         boolean[][] input = new boolean[][] {
                 {true, false},
                 {false, true}};
-        boolean result = check.mono(input);
+        boolean result = matrix.mono(input);
         assertThat(result, is(true));
     }
 
@@ -61,14 +61,14 @@ public class MatrixCheckTest {
      */
     @Test
     public void whenDataNotMonoByTrueThenFalseEven() {
-        MatrixCheck check = new MatrixCheck();
+        MatrixCheck matrix = new MatrixCheck();
         boolean[][] input = new boolean[][] {
                 {true, true, false, false},
                 {false, false, false, true},
                 {true, false, true, true},
                 {false, false, true, true}
         };
-        boolean result = check.mono(input);
+        boolean result = matrix.mono(input);
         assertThat(result, is(false));
     }
 }
