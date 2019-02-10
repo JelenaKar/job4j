@@ -16,7 +16,6 @@ public class StartUI {
     private static final String FINDNAME = "5";
     private static final String EXIT = "6";
     private final Input input;
-    private final Output output;
     private final Tracker tracker;
 
     /**
@@ -24,10 +23,9 @@ public class StartUI {
      * @param input ввод данных.
      * @param tracker хранилище заявок.
      */
-    public StartUI(Input input, Tracker tracker, Output output) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
-        this.output = output;
     }
 
     /**
@@ -43,7 +41,7 @@ public class StartUI {
                     this.createItem();
                     break;
                 case SHOW:
-                    this.output.print(this.showAllItems());
+                    this.showAllItems();
                     break;
                 case EDIT:
                     this.editItem();
@@ -52,10 +50,10 @@ public class StartUI {
                     this.deleteItem();
                     break;
                 case FINDID:
-                    this.output.print(this.findItemById());
+                    this.findItemById();
                     break;
                 case FINDNAME:
-                    this.output.print(this.findItemsByName());
+                    this.findItemsByName();
                     break;
                 case EXIT:
                     exit = true;
@@ -81,15 +79,13 @@ public class StartUI {
     /**
      * Метод реализует выгрузку всех заявок из хранилища.
      */
-    private String showAllItems() {
-        StringBuilder result = new StringBuilder();
-        result.append("------------- Список всех заявок ---------------\n");
+    private void showAllItems() {
+        System.out.println("------------- Список всех заявок ---------------");
         Item[] items = this.tracker.findAll();
         for (Item item : items) {
-            result.append(item.toString()).append(System.lineSeparator());
+            System.out.println(item.toString());
         }
-        result.append("------------- Конец выгрузки из БД -------------");
-        return result.toString();
+        System.out.println("------------- Конец выгрузки из БД -------------");
     }
 
     /**
@@ -127,38 +123,31 @@ public class StartUI {
     /**
      * Метод реализует показ заявки по id.
      */
-    private String findItemById() {
-        System.out.println("------------ Поиск заявки --------------");
+    private void findItemById() {
         String id = this.input.ask("Введите id заявки :");
         Item result = this.tracker.findById(id);
-        StringBuilder stringResult = new StringBuilder();
         if (result != null) {
-            stringResult.append("------------ Подробности по заявке с getId ").append(id).append(" -----------\n")
-                        .append(result.toString()).append(System.lineSeparator());
+            System.out.println("------------ Подробности по заявке с getId " + id + " -----------");
+            System.out.println(result.toString());
         } else {
-            stringResult.append("------------ Заявка с getId ").append(id).append(" не найдена -----------\n");
+            System.out.println("------------ Заявка с getId " + id + " не найдена -----------");
         }
-        return stringResult.toString();
     }
 
     /**
      * Метод реализует показ заявок по имени.
      */
-    private String findItemsByName() {
-        System.out.println("------------ Поиск заявок --------------");
+    private void findItemsByName() {
         String name = this.input.ask("Введите имя заявки :");
         Item[] items = this.tracker.findByName(name);
-        System.out.println(items != null);
-        StringBuilder stringResult = new StringBuilder();
         if (items != null) {
-            stringResult.append("------------ Список заявок с именем ").append(name).append(" -----------\n");
+            System.out.println("------------ Список заявок с именем " + name + " -----------");
             for (Item item : items) {
-                stringResult.append(item.toString()).append(System.lineSeparator());
+                System.out.println(item.toString());
             }
         } else {
-            stringResult.append("------------ Заявок с именем ").append(name).append(" не найдено -----------\n");
+            System.out.println("------------ Заявок с именем " + name + " не найдено -----------");
         }
-        return stringResult.toString();
     }
 
     private void showMenu() {
@@ -177,6 +166,6 @@ public class StartUI {
      * @param args аргументы командной строки.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker(), new ConsoleOutput()).init();
+        new StartUI(new ConsoleInput(), new Tracker()).init();
     }
 }

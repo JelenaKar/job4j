@@ -23,6 +23,9 @@ public class StartUITest {
         System.setOut(new PrintStream(this.out));
     }
 
+    private final String menu = "Меню:\n0. Добавить новую заявку\n1. Показать все заявки\n2. Редактировать заявку\n"
+            + "3. Удалить заявку\n4. Найти заявку по id\n5. Найти заявки по наименованию\n6. Выйти из программы";
+
     /**
      * Тест проверки пункта меню "0 : Добавить новую заявку".
      */
@@ -30,7 +33,7 @@ public class StartUITest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "comment", "6"});
-        new StartUI(input, tracker, new VirtualOutput()).init();
+        new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name"));
     }
 
@@ -44,19 +47,21 @@ public class StartUITest {
         tracker.add(new Item("test name2", "desc2", "comment2"));
 
         Input input = new StubInput(new String[]{"1", "6"});
-        VirtualOutput output = new VirtualOutput();
-        new StartUI(input, tracker, output).init();
+
+        this.loadOutput();
+        new StartUI(input, tracker).init();
 
         StringBuilder result = new StringBuilder();
         Item[] items = tracker.findAll();
-        result.append("------------- Список всех заявок ---------------\n");
+        result.append(menu).append("\n------------- Список всех заявок ---------------\n");
         for (Item item : items) {
             result.append(item.toString()).append(System.lineSeparator());
         }
-        result.append("------------- Конец выгрузки из БД -------------\n");
+        result.append("------------- Конец выгрузки из БД -------------\n").append(menu)
+                .append(System.lineSeparator());
 
         assertThat(
-                output.getOut().toString(),
+                this.out.toString(),
                 is(result.toString())
         );
     }
@@ -69,7 +74,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "измененной заявкой", "6"});
-        new StartUI(input, tracker, new VirtualOutput()).init();
+        new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
@@ -81,7 +86,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
-        new StartUI(input, tracker, new VirtualOutput()).init();
+        new StartUI(input, tracker).init();
         Item expected = null;
         assertThat(tracker.findById(item.getId()), is(expected));
     }
@@ -96,16 +101,18 @@ public class StartUITest {
         Item expectedItem = tracker.add(new Item("test name2", "desc2", "comment2"));
 
         Input input = new StubInput(new String[]{"4", expectedItem.getId(), "6"});
-        VirtualOutput output = new VirtualOutput();
-        new StartUI(input, tracker, output).init();
+        this.loadOutput();
+        new StartUI(input, tracker).init();
 
         StringBuilder result = new StringBuilder();
 
-        result.append("------------ Подробности по заявке с getId ").append(expectedItem.getId()).append(" -----------\n");
-        result.append(expectedItem.toString()).append(System.lineSeparator()).append(System.lineSeparator());
+        result.append(menu).append("\n------------ Подробности по заявке с getId ")
+                .append(expectedItem.getId()).append(" -----------\n")
+                .append(expectedItem.toString()).append(System.lineSeparator())
+                .append(menu).append(System.lineSeparator());
 
         assertThat(
-                output.getOut().toString(),
+                this.out.toString(),
                 is(result.toString())
         );
     }
@@ -123,20 +130,21 @@ public class StartUITest {
         String findName = "test name2";
 
         Input input = new StubInput(new String[]{"5", findName, "6"});
-        VirtualOutput output = new VirtualOutput();
-        new StartUI(input, tracker, output).init();
+        this.loadOutput();
+        new StartUI(input, tracker).init();
 
         StringBuilder result = new StringBuilder();
         Item[] items = tracker.findByName(findName);
 
-        result.append("------------ Список заявок с именем ").append(findName).append(" -----------\n");
+        result.append(menu).append("\n------------ Список заявок с именем ")
+                .append(findName).append(" -----------\n");
         for (Item item : items) {
             result.append(item.toString()).append(System.lineSeparator());
         }
-        result.append(System.lineSeparator());
+        result.append(menu).append(System.lineSeparator());
 
         assertThat(
-                output.getOut().toString(),
+               this.out.toString(),
                 is(result.toString())
         );
     }
@@ -148,7 +156,7 @@ public class StartUITest {
     public void when6ThanExits() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"6"});
-        new StartUI(input, tracker, new VirtualOutput()).init();
+        new StartUI(input, tracker).init();
     }
 
 }
