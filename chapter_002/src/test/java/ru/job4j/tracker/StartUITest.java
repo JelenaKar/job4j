@@ -23,8 +23,17 @@ public class StartUITest {
         System.setOut(new PrintStream(this.out));
     }
 
-    private final String menu = "Меню:\n0. Добавить новую заявку\n1. Показать все заявки\n2. Редактировать заявку\n"
-            + "3. Удалить заявку\n4. Найти заявку по id\n5. Найти заявки по наименованию\n6. Выйти из программы";
+    public final String getMenu(){
+        String ln = System.lineSeparator();
+        return new StringBuilder().append("Меню:")
+        .append(ln).append("0. Добавить новую заявку")
+        .append(ln).append("1. Показать все заявки")
+        .append(ln).append("2. Редактировать заявку")
+        .append(ln).append("3. Удалить заявку")
+        .append(ln).append("4. Найти заявку по id")
+        .append(ln).append("5. Найти заявки по наименованию")
+        .append(ln).append("6. Выйти из программы").toString();
+    }
 
     /**
      * Тест проверки пункта меню "0 : Добавить новую заявку".
@@ -53,12 +62,17 @@ public class StartUITest {
 
         StringBuilder result = new StringBuilder();
         Item[] items = tracker.findAll();
-        result.append(menu).append("\n------------- Список всех заявок ---------------\n");
+        result.append(this.getMenu())
+              .append(System.lineSeparator())
+              .append("------------- Список всех заявок ---------------")
+              .append(System.lineSeparator());
         for (Item item : items) {
             result.append(item.toString()).append(System.lineSeparator());
         }
-        result.append("------------- Конец выгрузки из БД -------------\n").append(menu)
-                .append(System.lineSeparator());
+        result.append("------------- Конец выгрузки из БД -------------")
+              .append(System.lineSeparator())
+              .append(this.getMenu())
+              .append(System.lineSeparator());
 
         assertThat(
                 this.out.toString(),
@@ -106,10 +120,16 @@ public class StartUITest {
 
         StringBuilder result = new StringBuilder();
 
-        result.append(menu).append("\n------------ Подробности по заявке с getId ")
-                .append(expectedItem.getId()).append(" -----------\n")
-                .append(expectedItem.toString()).append(System.lineSeparator())
-                .append(menu).append(System.lineSeparator());
+        result.append(this.getMenu())
+              .append(System.lineSeparator())
+              .append("------------ Подробности по заявке с getId ")
+              .append(expectedItem.getId())
+              .append(" -----------")
+              .append(System.lineSeparator())
+              .append(expectedItem.toString())
+              .append(System.lineSeparator())
+              .append(this.getMenu())
+              .append(System.lineSeparator());
 
         assertThat(
                 this.out.toString(),
@@ -136,12 +156,15 @@ public class StartUITest {
         StringBuilder result = new StringBuilder();
         Item[] items = tracker.findByName(findName);
 
-        result.append(menu).append("\n------------ Список заявок с именем ")
-                .append(findName).append(" -----------\n");
+        result.append(this.getMenu())
+               .append(System.lineSeparator())
+               .append("------------ Список заявок с именем ")
+               .append(findName).append(" -----------")
+               .append(System.lineSeparator());
         for (Item item : items) {
             result.append(item.toString()).append(System.lineSeparator());
         }
-        result.append(menu).append(System.lineSeparator());
+        result.append(this.getMenu()).append(System.lineSeparator());
 
         assertThat(
                this.out.toString(),
