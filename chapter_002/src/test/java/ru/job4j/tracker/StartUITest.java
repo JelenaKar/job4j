@@ -23,7 +23,7 @@ public class StartUITest {
         System.setOut(new PrintStream(this.out));
     }
 
-    public final String getMenu(){
+    public final String getMenu() {
         String ln = System.lineSeparator();
         return new StringBuilder().append("Меню:")
         .append(ln).append("0. Добавить новую заявку")
