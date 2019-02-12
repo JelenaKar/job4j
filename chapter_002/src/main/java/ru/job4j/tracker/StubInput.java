@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Класс, эмулирующий ответы пользователя.
  * @author Elena Kartashova (kartashova.ee@yandex.ru)
@@ -34,5 +36,9 @@ public class StubInput implements Input {
     @Override
     public String ask(String question) {
         return this.value[this.position++];
+    }
+
+    public int ask(String ask, List<Integer> range) {
+        return Integer.valueOf(this.ask(ask));
     }
 }

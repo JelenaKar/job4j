@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -19,5 +20,27 @@ public class ConsoleInput implements Input {
     public String ask(String ask) {
         System.out.print(ask);
         return this.scanner.nextLine();
+    }
+
+    /**
+     * Выводит на экран вопрос, принимает введённый ответ.
+     * @param ask выводимый на экран вопрос.
+     * @param range диапазон пунктов меню.
+     * @return введённый пользователем ответ.
+     */
+    public int ask(String ask, List<Integer> range) {
+        int key = Integer.valueOf(this.ask(ask));
+        boolean exists = false;
+        for (int value : range) {
+            if (value == key) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
+            return key;
+        } else {
+            throw new MenuOutException("Input value is out of bounds.");
+        }
     }
 }
