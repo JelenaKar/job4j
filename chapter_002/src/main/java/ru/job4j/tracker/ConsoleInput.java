@@ -25,7 +25,7 @@ public class ConsoleInput implements Input {
     /**
      * Выводит на экран вопрос, принимает введённый ответ.
      * @param ask выводимый на экран вопрос.
-     * @param range диапазон пунктов меню.
+     * @param range диапазон возможных пунктов меню.
      * @return введённый пользователем ответ.
      */
     public int ask(String ask, List<Integer> range) {

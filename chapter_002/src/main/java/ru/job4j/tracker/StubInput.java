@@ -38,7 +38,25 @@ public class StubInput implements Input {
         return this.value[this.position++];
     }
 
+    /**
+     * Эмулятор поведения пользователя.
+     * @param ask вопрос.
+     * @param range диапазон возможных пунктов меню.
+     * @return Возавращает очередное значение из заранее заготовленного массива ответов пользователя.
+     */
     public int ask(String ask, List<Integer> range) {
-        return Integer.valueOf(this.ask(ask));
+        int key = Integer.valueOf(this.ask(ask));
+        boolean exists = false;
+        for (int value : range) {
+            if (value == key) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
+            return key;
+        } else {
+            throw new MenuOutException("Input value is out of bounds.");
+        }
     }
 }
