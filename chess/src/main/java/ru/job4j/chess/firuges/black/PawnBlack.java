@@ -25,12 +25,11 @@ public class PawnBlack extends Pawn {
      */
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (source.y == dest.y + 1 && source.x == dest.x) {
-            Cell[] steps = new Cell[] {dest};
-            return steps;
-        } else {
+        if (!(source.y == dest.y + 1 && source.x == dest.x)) {
             throw new ImpossibleMoveException("Impossible move for pawn!");
         }
+        Cell[] steps = new Cell[] {dest};
+        return steps;
     }
 
     /**

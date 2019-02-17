@@ -64,6 +64,9 @@ public class Chess extends Application {
                         if (logic.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()))) {
                             rect.setX(((int) event.getX() / 40) * 40 + 5);
                             rect.setY(((int) event.getY() / 40) * 40 + 5);
+                        } else {
+                            rect.setX(((int) momento.getX() / 40) * 40 + 5);
+                            rect.setY(((int) momento.getY() / 40) * 40 + 5);
                         }
                     } catch (ImpossibleMoveException | OccupiedWayException | FigureNotFoundException e) {
                         System.out.println(e);

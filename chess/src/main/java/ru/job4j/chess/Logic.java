@@ -20,20 +20,20 @@ public class Logic {
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
         int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (!isOccupied(steps)) {
-                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    rst = true;
-                    this.figures[index] = this.figures[index].copy(dest);
-                }
-            } else {
-                throw new OccupiedWayException("The way of the figure is occupied!");
-            }
-            return rst;
-        } else {
-            throw new FigureNotFoundException("Figure not found!");
+        if (index == -1) {
+            throw new FigureNotFoundException("Figure is not found!");
         }
+
+        Cell[] steps = this.figures[index].way(source, dest);
+
+        if (isOccupied(steps)) {
+            throw new OccupiedWayException("The way of the figure is occupied!");
+        }
+        if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+            rst = true;
+            this.figures[index] = this.figures[index].copy(dest);
+        }
+        return rst;
     }
 
     public void clean() {
