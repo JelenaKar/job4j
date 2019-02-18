@@ -22,6 +22,22 @@ public interface Figure {
         return rst;
     }
 
+   default boolean isHorizontal(Cell source, Cell dest) {
+        boolean rst = false;
+        if (abs(dest.x - source.x) != 0 && (dest.y - source.y) == 0) {
+            rst = true;
+        }
+        return rst;
+   }
+
+    default boolean isVertical(Cell source, Cell dest) {
+        boolean rst = false;
+        if ((dest.x - source.x) == 0 && abs(dest.y - source.y) != 0) {
+            rst = true;
+        }
+        return rst;
+    }
+
     Figure copy(Cell dest);
 
 }

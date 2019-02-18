@@ -2,7 +2,7 @@ package ru.job4j.chess.firuges.white;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
-import ru.job4j.chess.firuges.base.Knight;
+import ru.job4j.chess.firuges.base.Queen;
 
 /**
  *
@@ -10,14 +10,14 @@ import ru.job4j.chess.firuges.base.Knight;
  * @version $Id$
  * @since 0.1
  */
-public class KnightWhite extends Knight {
+public class QueenWhite extends Queen {
 
-    public KnightWhite(final Cell position) {
+    public QueenWhite(final Cell position) {
         super(position);
     }
 
     @Override
     public Figure copy(Cell dest) {
-        return new KnightWhite(dest);
+        return new QueenWhite(dest);
     }
 }
