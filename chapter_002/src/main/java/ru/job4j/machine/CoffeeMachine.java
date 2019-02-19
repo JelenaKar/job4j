@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @since 0.1
  */
 public class CoffeeMachine {
-    private static final int[] coins = {10, 5, 2, 1};
+    private static final int[] COINS = {10, 5, 2, 1};
 
     /**
      * Выдаёт сдачу покупателю.
@@ -20,24 +20,27 @@ public class CoffeeMachine {
      */
     public int[] changes(int value, int price) {
         int diff = value - price;
-        int[] rst = {0};
-        int position = 0;
-        if (diff >= 0) {
-            for (int coin : coins) {
-                do {
+        if (diff < 0) {
+            throw new NotEnoughMoney("You haven't enough money for this coffee!");
+        } else {
+            int[] rst = new int[diff];
+            int len = 0;
+            for (int coin : COINS) {
+                while (diff != 0) {
                     if (diff - coin >= 0) {
                         diff -= coin;
-                        rst = Arrays.copyOf(rst, ++position);
-                        rst[position-1] = coin;
+                        rst[len++] = coin;
                     } else {
                         break;
                     }
-                } while (diff != 0);
+                }
                 if (diff == 0) {
+                    len = (len == 0) ? ++len : len;
                     break;
                 }
             }
-        } else throw new NotEnoughMoney("You haven't enough money for this coffee!");
-        return rst;
+            rst = Arrays.copyOf(rst, len);
+            return rst;
+        }
     }
 }
