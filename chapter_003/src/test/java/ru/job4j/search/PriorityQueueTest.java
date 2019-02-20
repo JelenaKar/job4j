@@ -5,7 +5,18 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Test.
+ *
+ * @author Elena Kartashova (kartashova.ee@yandex.ru)
+ * @version $Id$
+ * @since 0.1
+ */
 public class PriorityQueueTest {
+
+    /**
+     * Проверка того, что первый элемент с наивысшим приоритетом.
+     */
     @Test
     public void whenHigherPriority() {
         PriorityQueue queue = new PriorityQueue();

@@ -12,9 +12,7 @@ public class PriorityQueue {
     private LinkedList<Task> tasks = new LinkedList<>();
 
     /**
-     * Метод должен вставлять в нужную позицию элемент.
-     * Позиция определять по полю приоритет.
-     * Для вставик использовать add(int index, E value)
+     * Метод, добавляющий задачу в зависимости от приоритета.
      * @param task задача
      */
     public void put(Task task) {
@@ -31,7 +29,11 @@ public class PriorityQueue {
         }
     }
 
+    /**
+     * Метод, возвращающий первую задачу из списка.
+     * @return task задача с наивысшим приоритетом.
+     */
     public Task take() {
-        return this.tasks.peek();
+        return this.tasks.poll();
     }
 }
