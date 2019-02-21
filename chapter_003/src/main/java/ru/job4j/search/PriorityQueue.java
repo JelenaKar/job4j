@@ -20,12 +20,14 @@ public class PriorityQueue {
             this.tasks.add(task);
         } else {
             int priority = task.getPriority();
+            int i = 0;
             for (Task t : this.tasks) {
                 if (priority < t.getPriority()) {
-                    this.tasks.add(this.tasks.indexOf(t), task);
                     break;
                 }
+                i++;
             }
+            this.tasks.add(i, task);
         }
     }
 
@@ -35,5 +37,9 @@ public class PriorityQueue {
      */
     public Task take() {
         return this.tasks.poll();
+    }
+
+    public LinkedList<Task> getTasks() {
+        return this.tasks;
     }
 }
