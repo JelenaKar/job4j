@@ -1,5 +1,9 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
@@ -11,7 +15,7 @@ public class MenuTracker {
     private static final int FINDID = 4;
     private static final int FINDNAME = 5;
 
-    private UserAction[] actions = new UserAction[6];
+    private HashMap<Integer, BaseAction> actions = new HashMap<>();
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -19,26 +23,26 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.actions[ADD] = new CreateItem(ADD, "Добавить новую заявку");
-        this.actions[SHOW] = new ShowAllItems(SHOW, "Показать все заявки");
-        this.actions[EDIT] = new EditItem(EDIT, "Редактировать заявку");
-        this.actions[DELETE] = new DeleteItem(DELETE, "Удалить заявку");
-        this.actions[FINDID] = new FindItemById(FINDID, "Найти заявку по id");
-        this.actions[FINDNAME] = new FindItemsByName(FINDNAME, "Найти заявки по наименованию");
+        this.actions.put(ADD, new CreateItem(ADD, "Добавить новую заявку"));
+        this.actions.put(SHOW, new ShowAllItems(SHOW, "Показать все заявки"));
+        this.actions.put(EDIT, new EditItem(EDIT, "Редактировать заявку"));
+        this.actions.put(DELETE, new DeleteItem(DELETE, "Удалить заявку"));
+        this.actions.put(FINDID, new FindItemById(FINDID, "Найти заявку по id"));
+        this.actions.put(FINDNAME, new FindItemsByName(FINDNAME, "Найти заявки по наименованию"));
     }
 
     public int getActionsLength() {
-        return 7;
+        return this.actions.size() + 1;
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {
         System.out.println("Меню:");
-        for (UserAction action : this.actions) {
-            System.out.println(action.info());
+        for (Map.Entry<Integer, BaseAction> action : this.actions.entrySet()) {
+            System.out.println(action.getValue().info());
         }
         System.out.println("6. Выйти из программы");
     }
@@ -76,7 +80,7 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------- Список всех заявок ---------------");
-            Item[] items = tracker.findAll();
+            ArrayList<Item> items = tracker.findAll();
             for (Item item : items) {
                 System.out.println(item.toString());
             }
@@ -166,7 +170,7 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Введите имя заявки :");
-            Item[] items = tracker.findByName(name);
+            ArrayList<Item> items = tracker.findByName(name);
             if (items != null) {
                 System.out.println("------------ Список заявок с именем " + name + " -----------");
                 for (Item item : items) {

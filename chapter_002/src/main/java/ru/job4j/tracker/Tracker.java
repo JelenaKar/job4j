@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -11,8 +12,7 @@ import java.util.Random;
  */
 public class Tracker {
 
-    private Item[] items = new Item[100];
-    private int position = 0;
+    private ArrayList<Item> items = new ArrayList<>();
     private static final Random RN = new Random();
 
     /**
@@ -22,7 +22,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId(item.getCreated()));
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -38,8 +38,8 @@ public class Tracker {
         if (index == -1) {
             result = false;
         } else {
-            this.items[index] = item;
-            this.items[index].setId(id);
+            item.setId(id);
+            this.items.set(index, item);
         }
         return result;
     }
@@ -50,43 +50,35 @@ public class Tracker {
      * @return true если удаление прошло успешно и false если объект с заданным id не найден.
      */
     public boolean delete(String id) {
-        boolean result = true;
         int index = this.findPosById(id);
-        if (index == -1) {
-            result = false;
-        } else {
-            System.arraycopy(this.items, index + 1, this.items, index, this.position - index - 1);
-            this.items[this.position - 1] = null;
-            this.position--;
+        boolean result = false;
+        if (index != -1) {
+            Item removed = this.items.remove(index);
+            result = (removed != null);
         }
         return result;
     }
 
     /**
      * Выгружает из хранилища все непустые строки с заявками.
-     * @return массив объектов заявок.
+     * @return список всех объектов заявок.
      */
-    public Item[] findAll() {
-        Item[] result = Arrays.copyOf(this.items, position);
-        return result;
+    public ArrayList<Item> findAll() {
+        return this.items;
     }
 
     /**
      * Выгружает из хранилища все заявки с заданным именем.
-     * @return массив объектов заявок, если такое имя существует, и null в противном случае.
+     * @return список объектов заявок, если такое имя существует, и null в противном случае.
      */
-    public Item[] findByName(String key) {
-        Item[] result = new Item[100];
-        int index = 0;
-        for (int i = 0; i < this.position; i++) {
-            if (key.equals(this.items[i].getName())) {
-                result[index] = this.items[i];
-                index++;
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> result = new ArrayList<>();
+        for (Item item : this.items) {
+            if (item.getName().equals(key)) {
+                result.add(item);
             }
         }
-        if (index > 0) {
-            result = Arrays.copyOf(result, index);
-        } else {
+        if (result.size() == 0) {
             result = null;
         }
         return result;
@@ -98,24 +90,24 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                result = this.items[i];
-                break;
-            }
+        int index = this.findPosById(id);
+        if (index != -1) {
+            result = this.items.get(index);
         }
         return result;
     }
 
     private int findPosById(String id) {
-        int result = -1;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                result = i;
+        int index = -1;
+        int i = 0;
+        for (Item elem : this.items) {
+            if (elem.getId().equals(id)) {
+                index = i;
                 break;
             }
+            i++;
         }
-        return result;
+        return index;
     }
 
     private String generateId(long created) {
@@ -123,34 +115,19 @@ public class Tracker {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        boolean res;
-        if (obj == this) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || obj.getClass() != this.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        Tracker tracker = (Tracker) obj;
-        if (this.items.length != tracker.items.length) {
-            return false;
-        }
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] != tracker.items[i]) {
-                return false;
-            }
-        }
-        return true;
+        Tracker tracker = (Tracker) o;
+        return items.equals(tracker.items);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + this.items[0].getId().hashCode();
-        result = prime * result + this.items[0].getName().hashCode();
-        result = prime * result + (int) (this.items[0].getCreated());
-        return result;
+        return Objects.hash(items);
     }
 }

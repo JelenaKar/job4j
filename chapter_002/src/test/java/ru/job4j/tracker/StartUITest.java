@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -43,7 +44,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "comment", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test name"));
+        assertThat(tracker.findAll().get(0).getName(), is("test name"));
     }
 
     /**
@@ -61,7 +62,7 @@ public class StartUITest {
         new StartUI(input, tracker).init();
 
         StringBuilder result = new StringBuilder();
-        Item[] items = tracker.findAll();
+        ArrayList<Item> items = tracker.findAll();
         result.append(this.getMenu())
               .append(System.lineSeparator())
               .append("------------- Список всех заявок ---------------")
@@ -154,7 +155,7 @@ public class StartUITest {
         new StartUI(input, tracker).init();
 
         StringBuilder result = new StringBuilder();
-        Item[] items = tracker.findByName(findName);
+        ArrayList<Item> items = tracker.findByName(findName);
 
         result.append(this.getMenu())
                .append(System.lineSeparator())

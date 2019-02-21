@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -29,22 +31,22 @@ public class TrackerSingleStaticFinalClassTest {
      */
     @Test
     public void whenFindAllThenReturnAllItemsWithoutNull() {
-        Tracker testTracker = TrackerSingleStaticFinalClass.getInstance();
-        Item[] expected = new Item[3];
+        Tracker testTracker = new Tracker();
+        ArrayList<Item> expected = new ArrayList<>();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
         testTracker.add(firstItem);
-        expected[0] = firstItem;
+        expected.add(firstItem);
 
         Item secondItem = new Item("test2", "testDescription2", "TestComment2");
         testTracker.add(secondItem);
-        expected[1] = secondItem;
+        expected.add(secondItem);
 
         Item thirdItem = new Item("test3", "testDescription3", "TestComment3");
         testTracker.add(thirdItem);
-        expected[2] = thirdItem;
+        expected.add(thirdItem);
 
-        Item[] result = testTracker.findAll();
+        ArrayList<Item> result = testTracker.findAll();
         assertThat(result, is(expected));
     }
 }
