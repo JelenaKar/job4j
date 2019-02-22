@@ -32,4 +32,40 @@ public class SortUserTest {
         Set<User> result = sorting.sort(users);
         assertThat(result, is(expected));
     }
+
+    /**
+     * Проверка сортировки пользователей по длине имени.
+     */
+    @Test
+    public void whenSortByNameLength() {
+        List<User> users = new ArrayList<>(Arrays.asList(
+                new User("Василий", 31), new User("Федот", 59),
+                new User("Ли", 29), new User("Иван", 64)));
+        List<User> expected = new ArrayList<>(Arrays.asList(
+                new User("Ли", 29),
+                new User("Иван", 64),
+                new User("Федот", 59),
+                new User("Василий", 31)));
+        SortUser sorting = new SortUser();
+        List<User> result = sorting.sortNameLength(users);
+        assertThat(result, is(expected));
+    }
+
+    /**
+     * Проверка сортировки пользователей по имени, а затем по возрасту.
+     */
+    @Test
+    public void whenSortByAllFields() {
+        List<User> users = new ArrayList<>(Arrays.asList(
+                new User("Сергей", 25), new User("Иван", 30),
+                new User("Сергей", 20), new User("Иван", 25)));
+        List<User> expected = new ArrayList<>(Arrays.asList(
+                new User("Иван", 25),
+                new User("Иван", 30),
+                new User("Сергей", 20),
+                new User("Сергей", 25)));
+        SortUser sorting = new SortUser();
+        List<User> result = sorting.sortByAllFields(users);
+        assertThat(result, is(expected));
+    }
 }
