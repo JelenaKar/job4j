@@ -1,7 +1,5 @@
 package ru.job4j.sort;
 
-import ru.job4j.search.Person;
-
 import java.util.*;
 
 /**
