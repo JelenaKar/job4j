@@ -30,9 +30,7 @@ public class StringCompare implements Comparator<String> {
             i++;
         }
         if (result == 0) {
-            if (left.length() - right.length() != 0) {
-                result = (left.length() - right.length()) / Math.abs(left.length() - right.length());
-            }
+            result = Integer.compare(left.length(), right.length());
         }
 
         return result;
