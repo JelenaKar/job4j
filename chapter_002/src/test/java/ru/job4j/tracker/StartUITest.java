@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -20,9 +21,21 @@ public class StartUITest {
 
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    public void loadOutput() {
-        System.setOut(new PrintStream(this.out));
-    }
+    private final Consumer<String> output = new Consumer<String>() {
+        private final PrintStream stdout = new PrintStream(out);
+
+        private String printString;
+
+        @Override
+        public void accept(String s) {
+            this.stdout.println(s);
+            this.printString = this.printString == null ? s : this.printString + "\n" + s;
+        }
+
+        public String toString() {
+            return this.printString + "\n";
+        }
+    };
 
     public final String getMenu() {
         String ln = System.lineSeparator();
@@ -43,7 +56,7 @@ public class StartUITest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "comment", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(tracker.findAll().get(0).getName(), is("test name"));
     }
 
@@ -58,8 +71,7 @@ public class StartUITest {
 
         Input input = new StubInput(new String[]{"1", "6"});
 
-        this.loadOutput();
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
 
         StringBuilder result = new StringBuilder();
         ArrayList<Item> items = tracker.findAll();
@@ -76,7 +88,7 @@ public class StartUITest {
               .append(System.lineSeparator());
 
         assertThat(
-                this.out.toString(),
+                output.toString(),
                 is(result.toString())
         );
     }
@@ -89,7 +101,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "измененной заявкой", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
@@ -101,7 +113,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         Item expected = null;
         assertThat(tracker.findById(item.getId()), is(expected));
     }
@@ -116,8 +128,8 @@ public class StartUITest {
         Item expectedItem = tracker.add(new Item("test name2", "desc2", "comment2"));
 
         Input input = new StubInput(new String[]{"4", expectedItem.getId(), "6"});
-        this.loadOutput();
-        new StartUI(input, tracker).init();
+
+        new StartUI(input, tracker, output).init();
 
         StringBuilder result = new StringBuilder();
 
@@ -133,7 +145,7 @@ public class StartUITest {
               .append(System.lineSeparator());
 
         assertThat(
-                this.out.toString(),
+                output.toString(),
                 is(result.toString())
         );
     }
@@ -151,8 +163,8 @@ public class StartUITest {
         String findName = "test name2";
 
         Input input = new StubInput(new String[]{"5", findName, "6"});
-        this.loadOutput();
-        new StartUI(input, tracker).init();
+
+        new StartUI(input, tracker, output).init();
 
         StringBuilder result = new StringBuilder();
         ArrayList<Item> items = tracker.findByName(findName);
@@ -168,7 +180,7 @@ public class StartUITest {
         result.append(this.getMenu()).append(System.lineSeparator());
 
         assertThat(
-               this.out.toString(),
+               output.toString(),
                 is(result.toString())
         );
     }
@@ -180,7 +192,7 @@ public class StartUITest {
     public void when6ThanExits() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
     }
 
 }
