@@ -2,6 +2,8 @@ package ru.job4j.list;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import static java.util.Arrays.*;
 
 /**
  * Класс списка, полученного из матрицы.
@@ -18,11 +20,9 @@ public class ConvertMatrix2List {
      */
     public List<Integer> toList(int[][] input) {
         List<Integer> list = new ArrayList<>();
-        for (int[] rows : input) {
-            for (int cells : rows) {
-                list.add(cells);
-            }
-        }
+        stream(input).map(
+                row -> stream(row).boxed().collect(Collectors.toList())
+        ).forEach(list::addAll);
         return list;
     }
 }

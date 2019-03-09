@@ -2,6 +2,7 @@ package ru.job4j.map;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Класс-преобразователь пользователя.
@@ -17,12 +18,7 @@ public class UserConvert {
      * @return карта пользователей.
      */
     public HashMap<Integer, User> process(List<User> list) {
-        HashMap<Integer, User> users = new HashMap<>(list.size());
-
-        for (User user : list) {
-            users.put(user.getId(), user);
-        }
-
-        return users;
+        return (HashMap<Integer, User>) list.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
     }
 }

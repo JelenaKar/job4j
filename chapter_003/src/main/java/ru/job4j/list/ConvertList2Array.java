@@ -1,8 +1,13 @@
 package ru.job4j.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Класс матрицы, полученной из списка.
@@ -34,18 +39,15 @@ public class ConvertList2Array {
     }
 
     /**
-     * Метод, преобразующий список в матрицу с заданным числом строк.
+     * Метод, преобразующий список из матриц в единый список.
      * @param list - исходный список.
      * @return одномерный список, полученный из двумерного.
      */
     public List<Integer> convert(List<int[]> list) {
-        Iterator<int[]> it = list.iterator();
         List<Integer> result = new ArrayList<>();
-        while (it.hasNext()) {
-            for (int el : it.next()) {
-                result.add(el);
-            }
-        }
+        list.stream().map(
+                row -> Arrays.stream(row).boxed().collect(Collectors.toList())
+        ).forEach(result::addAll);
         return result;
     }
 }

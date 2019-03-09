@@ -8,6 +8,8 @@ import java.util.List;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -60,10 +62,7 @@ public class ValidateInputTest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"20", "1"})
         );
-        List<Integer> range = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            range.add(i);
-        }
+        List<Integer> range = IntStream.range(0, 7).boxed().collect(Collectors.toList());
         input.ask("Enter", range);
         assertThat(
                 this.mem.toString(),
@@ -81,10 +80,7 @@ public class ValidateInputTest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"6"})
         );
-        List<Integer> range = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            range.add(i);
-        }
+        List<Integer> range = IntStream.range(0, 7).boxed().collect(Collectors.toList());
         input.ask("Enter", range);
         assertThat(
                 this.mem.toString(),

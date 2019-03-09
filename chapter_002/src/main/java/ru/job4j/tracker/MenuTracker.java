@@ -44,9 +44,7 @@ public class MenuTracker {
 
     public void show() {
         this.output.accept("Меню:");
-        for (Map.Entry<Integer, BaseAction> action : this.actions.entrySet()) {
-            this.output.accept(action.getValue().info());
-        }
+        this.actions.values().forEach(action -> this.output.accept(action.info()));
         this.output.accept("6. Выйти из программы");
     }
 
@@ -83,10 +81,7 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             output.accept("------------- Список всех заявок ---------------");
-            ArrayList<Item> items = tracker.findAll();
-            for (Item item : items) {
-                output.accept(item.toString());
-            }
+            tracker.findAll().forEach(item -> output.accept(item.toString()));
             output.accept("------------- Конец выгрузки из БД -------------");
         }
     }
@@ -176,9 +171,7 @@ public class MenuTracker {
             ArrayList<Item> items = tracker.findByName(name);
             if (items != null) {
                 output.accept("------------ Список заявок с именем " + name + " -----------");
-                for (Item item : items) {
-                    output.accept(item.toString());
-                }
+                items.forEach(item -> output.accept(item.toString()));
             } else {
                 output.accept("------------ Заявок с именем " + name + " не найдено -----------");
             }

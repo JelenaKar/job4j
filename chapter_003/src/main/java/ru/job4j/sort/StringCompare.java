@@ -1,6 +1,10 @@
 package ru.job4j.sort;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Класс-компаратор для строк.
@@ -20,19 +24,11 @@ public class StringCompare implements Comparator<String> {
     public int compare(String left, String right) {
         char[] leftChars = left.toCharArray();
         char[] rightChars = right.toCharArray();
-        int result = 0;
-        int i = 0;
-        while (i < left.length() && i < right.length()) {
-            result = Character.compare(leftChars[i], rightChars[i]);
-            if (result != 0) {
-                break;
-            }
-            i++;
-        }
-        if (result == 0) {
-            result = Integer.compare(left.length(), right.length());
-        }
+        int diff = IntStream.range(0, Integer.min(leftChars.length, rightChars.length))
+                .filter(i -> leftChars[i] != rightChars[i])
+                .findFirst().orElse(-1);
 
-        return result;
+        return (diff == -1) ? Integer.compare(left.length(), right.length())
+                : Integer.compare(leftChars[diff], rightChars[diff]);
     }
 }

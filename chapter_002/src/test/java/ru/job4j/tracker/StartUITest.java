@@ -74,14 +74,11 @@ public class StartUITest {
         new StartUI(input, tracker, output).init();
 
         StringBuilder result = new StringBuilder();
-        ArrayList<Item> items = tracker.findAll();
         result.append(this.getMenu())
               .append(System.lineSeparator())
               .append("------------- Список всех заявок ---------------")
               .append(System.lineSeparator());
-        for (Item item : items) {
-            result.append(item.toString()).append(System.lineSeparator());
-        }
+        tracker.findAll().forEach(item -> result.append(item.toString()).append(System.lineSeparator()));
         result.append("------------- Конец выгрузки из БД -------------")
               .append(System.lineSeparator())
               .append(this.getMenu())
@@ -167,16 +164,13 @@ public class StartUITest {
         new StartUI(input, tracker, output).init();
 
         StringBuilder result = new StringBuilder();
-        ArrayList<Item> items = tracker.findByName(findName);
 
         result.append(this.getMenu())
                .append(System.lineSeparator())
                .append("------------ Список заявок с именем ")
                .append(findName).append(" -----------")
                .append(System.lineSeparator());
-        for (Item item : items) {
-            result.append(item.toString()).append(System.lineSeparator());
-        }
+        tracker.findByName(findName).forEach(item -> result.append(item.toString()).append(System.lineSeparator()));
         result.append(this.getMenu()).append(System.lineSeparator());
 
         assertThat(

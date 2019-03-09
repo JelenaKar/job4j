@@ -30,13 +30,8 @@ public class ConsoleInput implements Input {
      */
     public int ask(String ask, List<Integer> range) {
         int key = Integer.valueOf(this.ask(ask));
-        boolean exists = false;
-        for (int value : range) {
-            if (value == key) {
-                exists = true;
-                break;
-            }
-        }
+        int i = (int) range.stream().filter(value -> value == key).count();
+        boolean exists = i > 0;
         if (!exists) {
             throw new MenuOutException("Input value is out of bounds.");
         } else {

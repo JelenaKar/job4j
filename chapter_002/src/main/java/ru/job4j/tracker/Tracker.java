@@ -1,8 +1,11 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Класс - хранилище данных заявок.
@@ -72,12 +75,9 @@ public class Tracker {
      * @return список объектов заявок, если такое имя существует, и null в противном случае.
      */
     public ArrayList<Item> findByName(String key) {
-        ArrayList<Item> result = new ArrayList<>();
-        for (Item item : this.items) {
-            if (item.getName().equals(key)) {
-                result.add(item);
-            }
-        }
+        ArrayList<Item> result = (ArrayList<Item>) this.items.stream()
+                .filter(item -> item.getName().equals(key))
+                .collect(Collectors.toList());
         if (result.size() == 0) {
             result = null;
         }
@@ -98,16 +98,9 @@ public class Tracker {
     }
 
     private int findPosById(String id) {
-        int index = -1;
-        int i = 0;
-        for (Item elem : this.items) {
-            if (elem.getId().equals(id)) {
-                index = i;
-                break;
-            }
-            i++;
-        }
-        return index;
+        return IntStream.range(0, this.items.size())
+                .filter(i -> this.items.get(i).getId().equals(id))
+                .findFirst().orElse(-1);
     }
 
     private String generateId(long created) {
