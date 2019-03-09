@@ -1,9 +1,7 @@
 package ru.job4j.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Класс банк, реализующий все операции с клиентами и их счетами.
@@ -36,12 +34,11 @@ public class Bank {
      * @param account объект Счёта в банке.
      */
     public void addAccountToUser(String passport, Account account) {
-        for (Map.Entry<User, List<Account>> users : this.userAccounts.entrySet()) {
-            if (users.getKey().getPassport().equals(passport)) {
-                users.getValue().add(account);
-                break;
-            }
-        }
+        this.userAccounts.entrySet()
+                .stream()
+                .filter(user -> user.getKey().getPassport().equals(passport))
+                .findAny()
+                .map(users -> users.getValue().add(account));
     }
 
     /**
@@ -50,12 +47,10 @@ public class Bank {
      * @param account объект Счёта в банке.
      */
     public void deleteAccountFromUser(String passport, Account account) {
-        for (Map.Entry<User, List<Account>> users : this.userAccounts.entrySet()) {
-            if (users.getKey().getPassport().equals(passport)) {
-                users.getValue().remove(account);
-                break;
-            }
-        }
+        this.userAccounts.entrySet()
+                .stream()
+                .filter(user -> user.getKey().getPassport().equals(passport))
+                .forEach(users -> users.getValue().remove(account));
     }
 
     /**
@@ -63,15 +58,11 @@ public class Bank {
      * @param passport паспортные данные Клиента.
      * @return объект клиента.
      */
-    public User getUserByPassport(String passport) {
-        User searchedUser = null;
-        for (Map.Entry<User, List<Account>> users : this.userAccounts.entrySet()) {
-            if (users.getKey().getPassport().equals(passport)) {
-                searchedUser = users.getKey();
-                break;
-            }
-        }
-        return searchedUser;
+    private User getUserByPassport(String passport) {
+       return this.userAccounts.entrySet()
+                .stream()
+                .filter(user -> user.getKey().getPassport().equals(passport))
+                .findAny().map(Map.Entry::getKey).orElse(null);
     }
 
     /**
@@ -81,7 +72,7 @@ public class Bank {
      */
     public List<Account> getUserAccounts(String passport) {
         User user = this.getUserByPassport(passport);
-        return this.userAccounts.get(user);
+        return (user != null) ? this.userAccounts.get(user) : null;
     }
 
     /**
@@ -90,17 +81,15 @@ public class Bank {
      * @param requisite реквизиты счёта.
      * @return счёт клиента.
      */
-    Account getAccountByRequisiteFromUserPassport(String passport, String requisite) {
-        List<Account> userAccounts = this.getUserAccounts(passport);
-        Account account = new Account(0, "");
-        for (Account elem : userAccounts) {
-            if (elem.getRequisites().equals(requisite)) {
-                account = elem;
-                break;
-            }
-        }
-
-        return account;
+    public Account getAccountByRequisiteFromUserPassport(String passport, String requisite) {
+        return this.userAccounts.entrySet()
+                .stream()
+                .filter(user -> user.getKey().getPassport().equals(passport))
+                .findAny().map(u -> this.userAccounts.get(u.getKey()))
+                .map(u -> u.stream()
+                        .filter(account -> account.getRequisites().equals(requisite))
+                        .findFirst().orElse(null))
+                .orElse(null);
     }
 
     /**
