@@ -3,6 +3,9 @@ package ru.job4j.chess;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 /**
  * Класс игровой логики.
  * @author Elena Kartashova (kartashova.ee@yandex.ru)
@@ -44,24 +47,15 @@ public class Logic {
     }
 
     private int findBy(Cell cell) {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
-            }
-        }
-        return rst;
+        return IntStream
+                .range(0, this.figures.length)
+                .filter(i -> this.figures[i] != null && this.figures[i].position().equals(cell))
+                .findFirst()
+                .orElse(-1);
     }
 
     private boolean isOccupied(Cell[] steps) {
-        boolean rst = false;
-        for (Cell step : steps) {
-            if (this.findBy(step) != -1) {
-                rst = true;
-                break;
-            }
-        }
-        return rst;
+        return Arrays.stream(steps)
+                .map(step -> this.findBy(step) != -1).findAny().orElse(false);
     }
 }
