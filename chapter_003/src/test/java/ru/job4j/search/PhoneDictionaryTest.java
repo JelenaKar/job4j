@@ -19,14 +19,14 @@ public class PhoneDictionaryTest {
      */
     @Test
     public void whenFindByCityPart() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Иван", "Козлов", "3373777", "Воркута")
         );
         phones.add(
                 new Person("Константин", "Тимофеев", "343599", "Миллерово")
         );
-        List<Person> persons = phones.find("еро");
+        var persons = phones.find("еро");
         assertThat(persons.iterator().next().getSurname(), is("Тимофеев"));
     }
 
@@ -35,14 +35,14 @@ public class PhoneDictionaryTest {
      */
     @Test
     public void whenNotFindByCity() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Иван", "Козлов", "3373777", "Воркута")
         );
         phones.add(
                 new Person("Константин", "Тимофеев", "343599", "Миллерово")
         );
-        List<Person> persons = phones.find("Ростов");
+        var persons = phones.find("Ростов");
         Person expected = null;
         assertThat(persons, is(expected));
     }

@@ -16,7 +16,7 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        int i = (int) this.tasks.stream().filter(
+        var i = (int) this.tasks.stream().filter(
             thisTask -> (task.getPriority() > thisTask.getPriority())
         ).count();
 
