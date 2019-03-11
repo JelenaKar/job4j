@@ -39,15 +39,13 @@ public class StudentTest {
             )
         );
 
-        List<Student> expected = new ArrayList<>(Arrays.asList(
+        List<Student> expected = List.of(
                 new Student("Petrov", 20),
                 new Student("Zujev", 20),
                 new Student("Ivanov", 15),
                 new Student("Petrov", 15),
                 new Student("Sidorov", 13)
-            )
         );
-
 
         assertThat(Student.levelOf(students, 12), is(expected));
     }

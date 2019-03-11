@@ -2,8 +2,6 @@ package ru.job4j.bank;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -57,7 +55,7 @@ public class OperationsTest {
 
         Account vanyaRub = new Account(5000, "123456789");
         Account vanyaEur = new Account(1000, "789156738");
-        List<Account> expected = new ArrayList<>(Arrays.asList(vanyaRub, vanyaEur));
+        List<Account> expected = List.of(vanyaRub, vanyaEur);
 
         bank.addAccountToUser(vanya.getPassport(), vanyaRub);
         bank.addAccountToUser(vanya.getPassport(), vanyaEur);

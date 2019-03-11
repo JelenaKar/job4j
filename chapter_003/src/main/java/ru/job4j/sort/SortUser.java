@@ -26,12 +26,7 @@ public class SortUser {
      */
     public List<User> sortNameLength(List<User> users) {
         users.sort(
-            new Comparator<User>() {
-                @Override
-                public int compare(User o1, User o2) {
-                    return Integer.compare(o1.getName().length(), o2.getName().length());
-                }
-            });
+                Comparator.comparingInt(o -> o.getName().length()));
         return users;
     }
 
@@ -42,12 +37,9 @@ public class SortUser {
      */
     public List<User> sortByAllFields(List<User> users) {
         users.sort(
-                new Comparator<User>() {
-                    @Override
-                    public int compare(User o1, User o2) {
-                        int k = o1.getName().compareTo(o2.getName());
-                        return (k != 0) ? k : Integer.compare(o1.getAge(), o2.getAge());
-                    }
+                (o1, o2) -> {
+                    int k = o1.getName().compareTo(o2.getName());
+                    return (k != 0) ? k : Integer.compare(o1.getAge(), o2.getAge());
                 });
         return users;
     }

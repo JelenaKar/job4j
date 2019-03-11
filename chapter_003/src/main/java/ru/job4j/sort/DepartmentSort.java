@@ -18,12 +18,7 @@ public class DepartmentSort {
     public List<String> sortDepartmentAsc(String[] departments) {
         List<Department> departmentList = this.completeDepartmentArray(departments);
         List<String> result = this.arrayToString(departmentList);
-        result.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        result.sort(String::compareTo);
         return result;
     }
 
@@ -34,27 +29,24 @@ public class DepartmentSort {
      */
     public List<String> sortDepartmentDesc(String[] departments) {
         List<Department> departmentList = this.completeDepartmentArray(departments);
-        departmentList.sort(new Comparator<Department>() {
-            @Override
-            public int compare(Department o1, Department o2) {
-                String[] deps1 = o1.getDepCode();
-                String[] deps2 = o2.getDepCode();
-                int result = 0;
-                for (int i = 0; i < deps1.length; i++) {
-                    if (deps2.length > i) {
-                        result = deps2[i].compareTo(deps1[i]);
-                        if (result != 0) {
-                            break;
-                        }
-                    } else {
+        departmentList.sort((o1, o2) -> {
+            String[] deps1 = o1.getDepCode();
+            String[] deps2 = o2.getDepCode();
+            int result = 0;
+            for (int i = 0; i < deps1.length; i++) {
+                if (deps2.length > i) {
+                    result = deps2[i].compareTo(deps1[i]);
+                    if (result != 0) {
                         break;
                     }
+                } else {
+                    break;
                 }
-                if (result == 0 && deps1.length != deps2.length) {
-                    result = (deps1.length > deps2.length) ? 1 : -1;
-                }
-                return result;
             }
+            if (result == 0 && deps1.length != deps2.length) {
+                result = (deps1.length > deps2.length) ? 1 : -1;
+            }
+            return result;
         });
         return this.arrayToString(departmentList);
     }
