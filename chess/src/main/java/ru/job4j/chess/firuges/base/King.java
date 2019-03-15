@@ -44,11 +44,10 @@ public abstract class King implements Figure {
         int deltaX = source.x - dest.x;
         int deltaY = source.y - dest.y;
 
-        if (!((abs(deltaX) == 1 && deltaY == 0) || (deltaX == 0 && abs(deltaY) == 1))) {
+        if (!((abs(deltaX) == 1 || abs(deltaY) == 1))) {
             throw new ImpossibleMoveException("Impossible move for king!");
         }
 
-        Cell[] steps = new Cell[] {dest};
-        return steps;
+        return new Cell[] {dest};
     }
 }
