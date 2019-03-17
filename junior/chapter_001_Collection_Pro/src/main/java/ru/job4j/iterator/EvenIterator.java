@@ -11,8 +11,7 @@ import java.util.NoSuchElementException;
  */
 public class EvenIterator implements Iterator {
 
-    private int lastIndex = -1;
-    private int nextIndex = -1;
+    private int lastIndex = 0;
     private final int[] values;
 
     public EvenIterator(final int[] values) {
@@ -21,18 +20,13 @@ public class EvenIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        int i = this.lastIndex;
-        boolean result = true;
-        for (int j = i + 1; j < this.values.length; j++) {
-            if (this.values[j] % 2 == 0) {
-                i = j;
+        boolean result = false;
+        for (int i = this.lastIndex; i < this.values.length; i++) {
+            if (this.values[i] % 2 == 0) {
+                this.lastIndex = i;
+                result = true;
                 break;
             }
-        }
-        if (i == -1 || i == this.lastIndex) {
-            result = false;
-        } else {
-            this.nextIndex = i;
         }
         return result;
     }
@@ -42,8 +36,7 @@ public class EvenIterator implements Iterator {
         if (!this.hasNext()) {
             throw new NoSuchElementException();
         } else {
-            this.lastIndex = this.nextIndex;
-            return this.values[this.lastIndex];
+            return this.values[this.lastIndex++];
         }
     }
 }
