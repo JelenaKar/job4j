@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс итератор для двумерного массива.
@@ -31,6 +32,9 @@ public class Iterator2NArray implements Iterator {
             this.indexX++;
         } else {
             this.indexY++;
+        }
+        if (this.indexX == this.values.length) {
+            throw new NoSuchElementException();
         }
         return this.values[this.indexX][this.indexY];
     }
