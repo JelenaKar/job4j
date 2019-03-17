@@ -14,7 +14,7 @@ public class Iterator2NArray implements Iterator {
     private final int[][] values;
 
     private int indexX = 0;
-    private int indexY = -1;
+    private int indexY = 0;
 
     public Iterator2NArray(final int[][] values) {
         this.values = values;
@@ -22,20 +22,22 @@ public class Iterator2NArray implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return !(this.indexY == this.values[this.indexX].length - 1 && this.indexX == this.values.length - 1);
+        if (this.indexY == this.values.length) {
+            return false;
+        }
+        return this.indexX < this.values[this.indexY].length;
     }
 
     @Override
     public Object next() {
-        if (this.indexY == this.values[this.indexX].length - 1) {
-            this.indexY = 0;
-            this.indexX++;
-        } else {
-            this.indexY++;
-        }
-        if (this.indexX == this.values.length) {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        return this.values[this.indexX][this.indexY];
+        int res = this.values[this.indexY][this.indexX++];
+        if (this.indexX == this.values[this.indexY].length) {
+            this.indexX = 0;
+            this.indexY++;
+        }
+        return res;
     }
 }
