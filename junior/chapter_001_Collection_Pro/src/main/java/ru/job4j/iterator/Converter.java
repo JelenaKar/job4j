@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс-конвертер итераторов.
@@ -12,25 +13,24 @@ public class Converter {
 
     /**
      * Преобразует итератор итераторов в единый итератор.
-     * @param iteratorOfIterators - итератор итераторов.
+     * @param iterators - итератор итераторов.
      * @return единый итератор.
      */
-    public Iterator<Integer> convert(Iterator<Iterator<Integer>> iteratorOfIterators) {
+    public Iterator<Integer> convert(Iterator<Iterator<Integer>> iterators) {
         return new Iterator<>() {
-            Iterator<Integer> currentIterator = iteratorOfIterators.next();
+            Iterator<Integer> current = iterators.next();
 
             @Override
             public boolean hasNext() {
-                return this.returnCurrentIterator().hasNext();
+                this.current = current.hasNext() ? this.current : iterators.hasNext() ? iterators.next() : this.current;
+                return this.current.hasNext();
             }
             @Override
             public Integer next() {
-                return this.returnCurrentIterator().next();
-            }
-
-            private Iterator<Integer> returnCurrentIterator() {
-                this.currentIterator = currentIterator.hasNext() ? this.currentIterator : iteratorOfIterators.hasNext() ? iteratorOfIterators.next() : this.currentIterator;
-                return this.currentIterator;
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return this.current.next();
             }
         };
     }
