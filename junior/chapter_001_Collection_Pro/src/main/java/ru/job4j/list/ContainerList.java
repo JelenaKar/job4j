@@ -32,9 +32,7 @@ public class ContainerList<E> implements Iterable<E> {
      */
     public void add(E value) {
         this.modCount++;
-        if (this.position >= this.container.length) {
-            this.container = Arrays.copyOf(this.container, this.container.length * 2);
-        }
+        this.defineLength();
         this.container[this.position++] = value;
     }
 
@@ -81,5 +79,11 @@ public class ContainerList<E> implements Iterable<E> {
                 return container[ind++];
             }
         };
+    }
+
+    private void defineLength() {
+        if (this.position >= this.container.length) {
+            this.container = Arrays.copyOf(this.container, this.container.length * 2);
+        }
     }
 }
