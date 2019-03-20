@@ -22,7 +22,14 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                this.current = current.hasNext() ? this.current : iterators.hasNext() ? iterators.next() : this.current;
+                if (!current.hasNext()) {
+                    while (iterators.hasNext()) {
+                        current = iterators.next();
+                        if (current.hasNext()) {
+                            break;
+                        }
+                    }
+                }
                 return this.current.hasNext();
             }
             @Override
