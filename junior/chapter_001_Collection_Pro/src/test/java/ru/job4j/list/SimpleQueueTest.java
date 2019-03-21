@@ -16,13 +16,12 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleQueueTest {
 
-    private SimpleQueue<Integer> queue = new SimpleQueue<>();
-
     /**
      * Тестирование добавления элементов в очередь.
      */
     @Test
     public void whenAddThenLengthGrows() {
+        SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.push(3);
         assertThat(queue.size(), is(1));
         queue.push(2);
@@ -36,6 +35,7 @@ public class SimpleQueueTest {
      */
     @Test
     public void whenCallPollMethodThenReceiveFirstElementAndQuueSizeDecreases() {
+        SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.push(1);
         queue.push(2);
         queue.push(3);
@@ -52,6 +52,7 @@ public class SimpleQueueTest {
      */
     @Test(expected = NoSuchElementException.class)
     public void whenPollEmptyQueueThenThrowNoSuchElementException() {
+        SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.poll();
     }
 
