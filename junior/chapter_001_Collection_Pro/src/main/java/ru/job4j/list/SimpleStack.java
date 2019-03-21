@@ -18,9 +18,7 @@ public class SimpleStack<E> {
      * @throws NoSuchElementException если стек пустой.
      */
     public E poll() {
-        E res = nodeList.get(0);
-        nodeList.delete();
-        return res;
+        return nodeList.delete();
     }
 
     /**

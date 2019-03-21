@@ -16,13 +16,12 @@ import static org.junit.Assert.*;
  */
 public class SimpleStackTest {
 
-    private SimpleStack<Integer> stack = new SimpleStack<>();
-
     /**
      * Тестирование добавления элементов в стек.
      */
     @Test
     public void whenAddThenLengthGrows() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
         stack.push(3);
         assertThat(stack.size(), is(1));
         stack.push(2);
@@ -36,6 +35,7 @@ public class SimpleStackTest {
      */
     @Test
     public void whenCallPollMethodThenReceiveLastElementAndStackSizeDecreases() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
         stack.push(1);
         stack.push(2);
         stack.push(3);
@@ -52,6 +52,7 @@ public class SimpleStackTest {
      */
     @Test(expected = NoSuchElementException.class)
     public void whenPollEmptyStackThenThrowNoSuchElementException() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
         stack.poll();
     }
 
