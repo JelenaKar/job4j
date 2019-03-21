@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  */
 public class SimpleQueue<E> {
     private SimpleStack<E> straight = new SimpleStack<>();
+    private SimpleStack<E> reverse = new SimpleStack<>();
 
     /**
      * Метод извлечения первого добавленного элемента из очереди.
@@ -17,7 +18,6 @@ public class SimpleQueue<E> {
      * @throws NoSuchElementException если очередь пуста.
      */
     public E poll() {
-        SimpleStack<E> reverse = new SimpleStack<>();
         while (straight.size() != 0) {
             reverse.push(straight.poll());
         }
