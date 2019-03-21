@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
  */
 public class SimpleQueue<E> {
     private SimpleStack<E> straight = new SimpleStack<>();
-    private SimpleStack<E> reverse = new SimpleStack<>();
 
     /**
      * Метод извлечения первого добавленного элемента из очереди.
@@ -18,8 +17,15 @@ public class SimpleQueue<E> {
      * @throws NoSuchElementException если очередь пуста.
      */
     public E poll() {
-        this.overtakeStack(straight, reverse);
-        return reverse.poll();
+        SimpleStack<E> reverse = new SimpleStack<>();
+        while (straight.size() != 0) {
+            reverse.push(straight.poll());
+        }
+        E res = reverse.poll();
+        while (reverse.size() != 0) {
+            straight.push(reverse.poll());
+        }
+        return res;
     }
 
     /**
@@ -27,7 +33,6 @@ public class SimpleQueue<E> {
      * @param value - добавляемый элемент.
      */
     public void push(E value) {
-        this.overtakeStack(reverse, straight);
         straight.push(value);
     }
 
@@ -36,13 +41,6 @@ public class SimpleQueue<E> {
      * @return возвращает текущее количество элементов в очереди.
      */
     public int size() {
-        return straight.size() + reverse.size();
-    }
-
-    private void overtakeStack(SimpleStack<E> sender, SimpleStack<E> receiver) {
-        int len = sender.size();
-        for (int i = 0; i < len; i++) {
-            receiver.push(sender.poll());
-        }
+        return straight.size();
     }
 }
