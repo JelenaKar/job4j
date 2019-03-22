@@ -20,7 +20,7 @@ public class SimpleSet<E> implements Iterable<E> {
      */
     public void add(E value) {
         for (E elem : list) {
-            if (value != null && value.equals(elem) || value == null && elem == null) {
+            if (Objects.equals(elem, value)) {
                 return;
             }
         }
