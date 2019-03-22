@@ -47,4 +47,16 @@ public class LinkedCycledListTest {
         assertThat(list.hasCycle(first), is(true));
     }
 
+    /**
+     * Тестирование ситуации, список пустой.
+     */
+    @Test
+    public void whenLinkedListIsEmptyThenReturnFalse() {
+        Node<Integer> first = null;
+        Node<Integer> second = null;
+        Node<Integer> third = null;
+        Node<Integer> fourth = null;
+        assertThat(list.hasCycle(first), is(false));
+    }
+
 }
