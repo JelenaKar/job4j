@@ -2,6 +2,8 @@ package ru.job4j.set;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -32,5 +34,22 @@ public class SimpleSetTest {
         }
 
         assertThat(cnt, is(1));
+    }
+
+    /**
+     * Тестирование вставки дублирующихся элементов и работы итератора.
+     */
+    @Test
+    public void whenAddDuplicateNullElementsThenIgnoreOne() {
+        SimpleSet<Integer> set = new SimpleSet<>();
+        set.add(1);
+        set.add(null);
+        set.add(5);
+        set.add(null);
+        SimpleSet<Integer> expect = new SimpleSet<>();
+        expect.add(1);
+        expect.add(null);
+        expect.add(5);
+        assertThat(set, is(expect));
     }
 }

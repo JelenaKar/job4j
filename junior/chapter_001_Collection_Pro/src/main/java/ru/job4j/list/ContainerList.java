@@ -86,4 +86,21 @@ public class ContainerList<E> implements Iterable<E> {
             this.container = Arrays.copyOf(this.container, this.container.length * 2);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ContainerList<?> that = (ContainerList<?>) o;
+        return Arrays.equals(container, that.container);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(container);
+    }
 }
