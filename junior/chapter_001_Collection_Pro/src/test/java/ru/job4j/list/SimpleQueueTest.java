@@ -34,7 +34,7 @@ public class SimpleQueueTest {
      * Тестирование извлечения элементов из очереди.
      */
     @Test
-    public void whenCallPollMethodThenReceiveFirstElementAndQuueSizeDecreases() {
+    public void whenCallPollMethodThenReceiveFirstElementAndQueueSizeDecreases() {
         SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.push(1);
         queue.push(2);
