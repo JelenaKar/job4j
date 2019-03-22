@@ -18,14 +18,12 @@ public class SimpleQueue<E> {
      * @throws NoSuchElementException если очередь пуста.
      */
     public E poll() {
-        while (straight.size() != 0) {
-            reverse.push(straight.poll());
-        }
-        E res = reverse.poll();
-        while (reverse.size() != 0) {
-            straight.push(reverse.poll());
-        }
-        return res;
+       if (reverse.size() == 0) {
+           while (straight.size() != 0) {
+               reverse.push(straight.poll());
+           }
+       }
+       return reverse.poll();
     }
 
     /**
@@ -41,6 +39,6 @@ public class SimpleQueue<E> {
      * @return возвращает текущее количество элементов в очереди.
      */
     public int size() {
-        return straight.size();
+        return straight.size() + reverse.size();
     }
 }
