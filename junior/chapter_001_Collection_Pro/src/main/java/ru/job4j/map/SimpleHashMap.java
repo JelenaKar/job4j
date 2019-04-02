@@ -81,12 +81,14 @@ public class SimpleHashMap<K, V> implements Iterable {
      * @return true - если элемент был удалён, false - в противном случае.
      */
     public boolean delete(K key) {
-        boolean res = true;
-        if (this.tab[size() - 1 & hash(key)] == null) {
-            res = false;
-        } else {
-            this.tab[size() - 1 & hash(key)] = null;
-            modCount++;
+        boolean res = false;
+        if (this.tab[size() - 1 & hash(key)].getKey().equals(key)) {
+            if (this.tab[size() - 1 & hash(key)] != null) {
+                this.tab[size() - 1 & hash(key)] = null;
+                modCount++;
+                position--;
+                res = true;
+            }
         }
         return res;
     }
@@ -112,10 +114,24 @@ public class SimpleHashMap<K, V> implements Iterable {
         return new Iterator<>() {
             private int currentMod = modCount;
             private int ind = 0;
+            private int pos = 0;
 
             @Override
             public boolean hasNext() {
-                return ind < position;
+                boolean res = true;
+                int i = ind;
+                if (i == size()) {
+                    res = false;
+                } else {
+                    do {
+                        if (tab[i++] != null) {
+                            ind = --i;
+                            pos++;
+                            break;
+                        }
+                    } while (i < size() || pos < position);
+                }
+                return res;
             }
 
             @Override
