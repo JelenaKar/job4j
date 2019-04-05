@@ -164,4 +164,35 @@ public class TreeTest {
         assertThat(iterator.next().getValue(), is(6));
         assertThat(iterator.hasNext(), is(false));
     }
+
+    /**
+     * Тестирование метода isBinary() для бинарного дерева.
+     */
+    @Test
+    public void whenIsBinaryThenReturnTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 17);
+        tree.add(3, 11);
+        tree.add(3, 0);
+        tree.add(0, 22);
+        assertThat(tree.isBinary(), is(true));
+    }
+
+    /**
+     * Тестирование метода isBinary() для небинарного дерева.
+     */
+    @Test
+    public void whenIsNotBinaryThenReturnTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(1, 4);
+        tree.add(2, 17);
+        tree.add(3, 11);
+        tree.add(3, 0);
+        tree.add(0, 22);
+        assertThat(tree.isBinary(), is(false));
+    }
 }
