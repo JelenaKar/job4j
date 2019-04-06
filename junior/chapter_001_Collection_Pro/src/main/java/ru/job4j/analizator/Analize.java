@@ -1,22 +1,27 @@
 package ru.job4j.analizator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Analize {
     public Info diff(List<User> previous, List<User> current) {
         Info result = new Info();
-        previous.stream().filter(x -> !current.contains(x)).forEach(
-                y -> current.stream().filter(x -> x.id == y.id).findAny()
-                    .map(x -> result.changed++)
-                    .orElseGet(() -> result.deleted++)
-        );
 
-        current.stream().filter(x -> !previous.contains(x)).forEach(
-                y -> previous.stream()
-                        .filter(x -> x.id == y.id).findAny().map(x -> 0)
-                        .orElseGet(() -> result.added++)
-        );
+        Map<Integer, User> total = previous.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+
+        for (User cur : current) {
+            User old = total.put(cur.id, cur);
+            if (old == null) {
+                result.added++;
+            } else if (!previous.contains(cur)) {
+                result.changed++;
+            }
+        }
+
+        result.deleted = total.size() - current.size();
         return result;
     }
 
