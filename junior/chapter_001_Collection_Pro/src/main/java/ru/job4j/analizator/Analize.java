@@ -9,19 +9,21 @@ public class Analize {
     public Info diff(List<User> previous, List<User> current) {
         Info result = new Info();
 
-        Map<Integer, User> total = previous.stream()
+        Map<Integer, User> diff = current.stream()
                 .collect(Collectors.toMap(User::getId, user -> user));
 
-        for (User cur : current) {
-            User old = total.put(cur.id, cur);
-            if (old == null) {
-                result.added++;
-            } else if (!previous.contains(cur)) {
-                result.changed++;
+        for (User elem : previous) {
+            User removed = diff.remove(elem.id);
+            if (removed == null) {
+                result.deleted++;
+            } else {
+                if (!removed.equals(elem)) {
+                    result.changed++;
+                }
             }
         }
 
-        result.deleted = total.size() - current.size();
+        result.added = diff.size();
         return result;
     }
 
