@@ -58,7 +58,7 @@ public class TreeTest {
         tree.add(2, 5);
         tree.add(5, 6);
         assertThat(
-                tree.add(5, 6),
+                tree.add(6, 6),
                 is(false)
         );
     }

@@ -31,7 +31,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         Result res = new Result();
         this.findBy(parent).ifPresent(
                 x -> {
-                    if (!x.leaves().contains(new Node<>(child))) {
+                    if (this.findBy(child).isEmpty()) {
                         x.add(new Node<>(child));
                         res.result = true;
                     }
