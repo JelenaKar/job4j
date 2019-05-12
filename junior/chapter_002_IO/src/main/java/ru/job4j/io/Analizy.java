@@ -1,36 +1,43 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Analizy {
 
+private List<String> cash = new ArrayList<>();
+
     public void unavailable(String source, String target) {
-        try (BufferedReader read = new BufferedReader(new FileReader(source));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(target, true))) {
+        try (BufferedReader read = new BufferedReader(new FileReader(source))) {
             String line;
             boolean marked = false;
             while ((line = read.readLine()) != null) {
                 if (line.startsWith("400") || line.startsWith("500")) {
                     if (!marked) {
-                        writer.write(line, 4, line.length() - 4);
-                        writer.write(";");
+                        cash.add(line.substring(4) + ";");
                         marked = true;
                     }
                 } else {
                     if (marked) {
-                        writer.write(line, 4, line.length() - 4);
-                        writer.write(";\n");
+                        cash.add(line.substring(4) + ";\n");
                         marked = false;
                     }
                 }
             }
+            writeAll(cash, target);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        Analizy anal = new Analizy();
-        anal.unavailable("server.log", "unavailable.csv");
+    public void writeAll(List<String> cash, String target) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(target, true))) {
+            for (String line : cash) {
+                writer.write(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
