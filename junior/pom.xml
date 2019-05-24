@@ -20,4 +20,15 @@
     </modules>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+    </dependencies>
+
+
+
+
 </project>
