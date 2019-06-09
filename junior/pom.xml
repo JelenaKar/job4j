@@ -17,6 +17,7 @@
     <modules>
         <module>chapter_001_Collection_Pro</module>
         <module>chapter_002_IO</module>
+        <module>chapter_003_SQL_JDBC</module>
     </modules>
 
 
