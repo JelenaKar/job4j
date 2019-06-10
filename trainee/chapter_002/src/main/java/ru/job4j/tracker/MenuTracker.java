@@ -1,12 +1,12 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class MenuTracker {
     private Input input;
-    private Tracker tracker;
+    private ITracker tracker;
     private final Consumer<String> output;
 
     private static final int ADD = 0;
@@ -18,7 +18,7 @@ public class MenuTracker {
 
     private HashMap<Integer, BaseAction> actions = new HashMap<>();
 
-    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
+    public MenuTracker(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;
@@ -57,7 +57,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             output.accept("------------ Добавление новой заявки --------------");
             String name = input.ask("Введите имя заявки :");
             String desc = input.ask("Введите описание заявки :");
@@ -78,7 +78,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             output.accept("------------- Список всех заявок ---------------");
             tracker.findAll().forEach(item -> output.accept(item.toString()));
             output.accept("------------- Конец выгрузки из БД -------------");
@@ -95,7 +95,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             output.accept("------------ Редактирование заявки --------------");
             String id = input.ask("Введите id заявки :");
             String name = input.ask("Введите новое имя заявки :");
@@ -104,7 +104,7 @@ public class MenuTracker {
             Item item = new Item(name, desc, comment);
             boolean result = tracker.replace(id, item);
             if (result) {
-                output.accept("------------ Заявка с getId " + item.getId() + " отредактирована -----------");
+                output.accept("------------ Заявка с getId " + id + " отредактирована -----------");
             } else {
                 output.accept("------------ Заявка с указанным id отсутствует ------------------");
             }
@@ -121,7 +121,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             output.accept("------------ Удаление заявки --------------");
             String id = input.ask("Введите id заявки :");
             boolean result = tracker.delete(id);
@@ -143,7 +143,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Введите id заявки :");
             Item result = tracker.findById(id);
             if (result != null) {
@@ -165,9 +165,9 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String name = input.ask("Введите имя заявки :");
-            ArrayList<Item> items = tracker.findByName(name);
+            List<Item> items = tracker.findByName(name);
             if (items != null) {
                 output.accept("------------ Список заявок с именем " + name + " -----------");
                 items.forEach(item -> output.accept(item.toString()));

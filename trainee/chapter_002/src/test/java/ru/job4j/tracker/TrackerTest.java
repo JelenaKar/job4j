@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -21,7 +22,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("test1", "TestDescription", "TestComment");
         tracker.add(item);
         assertThat(tracker.findAll().get(0), is(item));
@@ -32,7 +33,7 @@ public class TrackerTest {
      */
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item previous = new Item("test1", "testDescription", "TestComment");
         tracker.add(previous);
         Item next = new Item("test2", "testDescription2", "TestComment2");
@@ -46,8 +47,8 @@ public class TrackerTest {
      */
     @Test
     public void whenDeleteItemThenReturnWithoutIt() {
-        Tracker testTracker = new Tracker();
-        Tracker resultTracker = new Tracker();
+        ITracker testTracker = new Tracker();
+        ITracker resultTracker = new Tracker();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
         testTracker.add(firstItem);
@@ -61,7 +62,8 @@ public class TrackerTest {
         resultTracker.add(thirdItem);
 
         testTracker.delete(secondItem.getId());
-        assertThat(testTracker, is(resultTracker));
+        Item expected = null;
+        assertThat(testTracker.findById(secondItem.getId()), is(expected));
     }
 
     /**
@@ -69,7 +71,7 @@ public class TrackerTest {
      */
     @Test
     public void whenFindAllThenReturnAllItemsWithoutNull() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         ArrayList<Item> expected = new ArrayList<>();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
@@ -84,7 +86,7 @@ public class TrackerTest {
         testTracker.add(thirdItem);
         expected.add(thirdItem);
 
-        ArrayList<Item> result = testTracker.findAll();
+        List<Item> result = testTracker.findAll();
         assertThat(result, is(expected));
     }
 
@@ -93,7 +95,7 @@ public class TrackerTest {
      */
     @Test
     public void whenFindByNameThenReturnMatchItems() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         ArrayList<Item> expected = new ArrayList<>();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
@@ -115,7 +117,7 @@ public class TrackerTest {
      */
     @Test
     public void whenNotFindByNameThenReturnNull() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         Item[] expected = null;
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
@@ -135,7 +137,7 @@ public class TrackerTest {
      */
     @Test
     public void whenFindByIdThenReturnMatchItem() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         Item expected;
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
@@ -157,7 +159,7 @@ public class TrackerTest {
      */
     @Test
     public void whenNotFindByIdThenReturnNull() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         Item expected = null;
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
