@@ -23,34 +23,25 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     private Connection connection;
 
     public TrackerSQL() {
-        this.init();
+        this.connection = this.init();
     }
 
-    public boolean init() {
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Connection init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
             config.load(in);
-            this.connection = DriverManager.getConnection(
+            return DriverManager.getConnection(
                     config.getProperty("url"),
                     config.getProperty("username"),
                     config.getProperty("password")
             );
-            try (Statement st = this.connection.createStatement()) {
-                st.execute("SELECT * FROM item LIMIT 1");
-            } catch (SQLException sqle) {
-                try (BufferedReader backup = new BufferedReader(new InputStreamReader(TrackerSQL.class.getClassLoader().getResourceAsStream("tracker-min.sql")))) {
-                    String line;
-                    try (Statement st = this.connection.createStatement()) {
-                        while ((line = backup.readLine()) != null) {
-                            st.execute(line);
-                        }
-                    }
-                }
-            }
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        return this.connection != null;
     }
 
     @Override
@@ -207,5 +198,13 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ps.setString(i, key[i - 1]);
         }
         return ps;
+    }
+
+    public static void main(String[] args) {
+        try (TrackerSQL sql = new TrackerSQL()) {
+            new StartUI(new ValidateInput(new ConsoleInput()), sql, System.out::println).init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

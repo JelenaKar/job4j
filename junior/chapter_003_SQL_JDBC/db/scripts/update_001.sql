@@ -13,3 +13,7 @@ INSERT INTO rule2role (rule_id, role_id) VALUES (1, 1), (2, 1), (3, 1), (4, 1), 
 INSERT INTO category ("name") VALUES ('IT-технологии'), ('Материально-техническое обеспечение'), ('Транспорт'), ('Прочее');
 INSERT INTO state ("name") VALUES ('Обрабатывается'), ('На рассмотрении'), ('В работе'), ('Исполнена'), ('Отклонена');
 INSERT INTO "user" (login, "password", role_id) VALUES ('default user', 'default', 3);
+INSERT INTO "user" (login, "password", role_id) VALUES ('ivanov', '123', 1), ('petrov', '456', 2), ('sidorov', '678', 3), ('kotov', '102', 3), ('timofeev', '643', 3);
+INSERT INTO item (name, description, category_id, state_id, user_id, created, uniqhash) VALUES ('test1', 'test description1', 1, 4, 4, 1559291098000, '1560068698798654'), ('test2', 'test description2', 3, 5, 5, 1539853337000, '1539853337798467'), ('test2', 'test description3', 2, 3, 5, 1539933856000, '1539933856710231');
+INSERT INTO attaches (link, item_id) VALUES ('/home/uu/downloads/scan1.jpg', 1), ('/home/unimto/downloads/scan0002.jpg', 2), ('/home/unimto/downloads/scan0002.jpg', 3);
+INSERT INTO "comments" ("comment", user_id, item_id) VALUES ('test comment1', 1, 1), ('test comment2', 3, 2), ('test comment3', 6, 3);
