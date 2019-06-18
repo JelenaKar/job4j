@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -21,8 +22,8 @@ public class TrackerSingleStaticFinalClassTest {
      */
     @Test
     public void whenCreatedTwoObjectsAreEqual() {
-        Tracker tracker1 = TrackerSingleStaticFinalClass.getInstance();
-        Tracker tracker2 = TrackerSingleStaticFinalClass.getInstance();
+        ITracker tracker1 = TrackerSingleStaticFinalClass.getInstance();
+        ITracker tracker2 = TrackerSingleStaticFinalClass.getInstance();
         assertThat(tracker1 == tracker2, is(true));
     }
 
@@ -31,7 +32,7 @@ public class TrackerSingleStaticFinalClassTest {
      */
     @Test
     public void whenFindAllThenReturnAllItemsWithoutNull() {
-        Tracker testTracker = new Tracker();
+        ITracker testTracker = new Tracker();
         ArrayList<Item> expected = new ArrayList<>();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
@@ -46,7 +47,7 @@ public class TrackerSingleStaticFinalClassTest {
         testTracker.add(thirdItem);
         expected.add(thirdItem);
 
-        ArrayList<Item> result = testTracker.findAll();
+        List<Item> result = testTracker.findAll();
         assertThat(result, is(expected));
     }
 }

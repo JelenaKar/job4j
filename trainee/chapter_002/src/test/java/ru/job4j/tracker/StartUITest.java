@@ -20,7 +20,7 @@ public class StartUITest {
 
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    private final Consumer<String> output = new Consumer<String>() {
+    private final Consumer<String> output = new Consumer<>() {
         private final PrintStream stdout = new PrintStream(out);
 
         private String printString;
@@ -53,7 +53,7 @@ public class StartUITest {
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "comment", "6"});
         new StartUI(input, tracker, output).init();
         assertThat(tracker.findAll().get(0).getName(), is("test name"));
@@ -64,7 +64,7 @@ public class StartUITest {
      */
     @Test
     public void whenUserListAllItems() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         tracker.add(new Item("test name1", "desc1", "comment1"));
         tracker.add(new Item("test name2", "desc2", "comment2"));
 
@@ -94,7 +94,7 @@ public class StartUITest {
      */
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "измененной заявкой", "6"});
         new StartUI(input, tracker, output).init();
@@ -106,7 +106,7 @@ public class StartUITest {
      */
     @Test
     public void whenDeleteThenTrackerDoesNotFindItemById() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", "comment"));
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker, output).init();
@@ -119,7 +119,7 @@ public class StartUITest {
      */
     @Test
     public void whenUserFindById() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         tracker.add(new Item("test name1", "desc1", "comment1"));
         Item expectedItem = tracker.add(new Item("test name2", "desc2", "comment2"));
 
@@ -151,7 +151,7 @@ public class StartUITest {
      */
     @Test
     public void whenUserFindByName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         tracker.add(new Item("test name1", "desc1", "comment1"));
         tracker.add(new Item("test name2", "desc2", "comment2"));
         tracker.add(new Item("test name2", "desc3", "comment3"));
@@ -183,7 +183,7 @@ public class StartUITest {
      */
     @Test
     public void when6ThanExits() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"6"});
         new StartUI(input, tracker, output).init();
     }

@@ -20,8 +20,8 @@ public class TrackerSingleStaticFieldTest {
      */
     @Test
     public void whenCreatedTwoObjectsAreEqual() {
-        Tracker tracker1 = TrackerSingleStaticField.getInstance();
-        Tracker tracker2 = TrackerSingleStaticField.getInstance();
+        ITracker tracker1 = TrackerSingleStaticField.getInstance();
+        ITracker tracker2 = TrackerSingleStaticField.getInstance();
         assertThat(tracker1 == tracker2, is(true));
     }
 
@@ -30,7 +30,7 @@ public class TrackerSingleStaticFieldTest {
      */
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        Tracker tracker = TrackerSingleStaticField.getInstance();
+        ITracker tracker = TrackerSingleStaticField.getInstance();
         Item previous = new Item("test1", "testDescription", "TestComment");
         tracker.add(previous);
         Item next = new Item("test2", "testDescription2", "TestComment2");

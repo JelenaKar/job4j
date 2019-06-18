@@ -19,8 +19,8 @@ public class TrackerSingleStaticFinalFieldTest {
      */
     @Test
     public void whenCreatedTwoObjectsAreEqual() {
-        Tracker tracker1 = TrackerSingleStaticFinalField.getInstance();
-        Tracker tracker2 = TrackerSingleStaticFinalField.getInstance();
+        ITracker tracker1 = TrackerSingleStaticFinalField.getInstance();
+        ITracker tracker2 = TrackerSingleStaticFinalField.getInstance();
         assertThat(tracker1 == tracker2, is(true));
     }
 
@@ -29,8 +29,8 @@ public class TrackerSingleStaticFinalFieldTest {
      */
     @Test
     public void whenDeleteItemThenReturnWithoutIt() {
-        Tracker testTracker = TrackerSingleStaticFinalField.getInstance();
-        Tracker resultTracker = TrackerSingleStaticFinalField.getInstance();
+        ITracker testTracker = TrackerSingleStaticFinalField.getInstance();
+        ITracker resultTracker = TrackerSingleStaticFinalField.getInstance();
 
         Item firstItem = new Item("test1", "testDescription", "TestComment");
         testTracker.add(firstItem);

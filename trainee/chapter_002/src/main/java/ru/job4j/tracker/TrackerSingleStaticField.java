@@ -7,13 +7,13 @@ package ru.job4j.tracker;
  * @since 0.1
  */
 public class TrackerSingleStaticField {
-    private static Tracker instance;
+    private static ITracker instance;
 
     private TrackerSingleStaticField() {
 
     }
 
-    public static Tracker getInstance() {
+    public static ITracker getInstance() {
         if (instance == null) {
             instance = new Tracker();
         }

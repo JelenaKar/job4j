@@ -12,10 +12,9 @@ import java.util.stream.IntStream;
  * @version $Id$
  * @since 0.1
  */
-public class Tracker {
+public class Tracker implements ITracker {
 
     private ArrayList<Item> items = new ArrayList<>();
-    private static final Random RN = new Random();
 
     /**
      * Добавляет заявку в хранилище.
@@ -100,26 +99,5 @@ public class Tracker {
         return IntStream.range(0, this.items.size())
                 .filter(i -> this.items.get(i).getId().equals(id))
                 .findFirst().orElse(-1);
-    }
-
-    private String generateId(long created) {
-        return String.valueOf(created + RN.nextInt());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Tracker tracker = (Tracker) o;
-        return items.equals(tracker.items);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(items);
     }
 }

@@ -125,8 +125,8 @@ enum TrackerSingleEnum {
     }
 
     public static void main(String[] args) {
-        Tracker boo = TrackerSingleStaticField.getInstance();
-        Tracker boo2 = TrackerSingleStaticField.getInstance();
+        ITracker boo = TrackerSingleStaticField.getInstance();
+        ITracker boo2 = TrackerSingleStaticField.getInstance();
 
         System.out.println(boo.getClass() + " i " + boo2.getClass());
     }

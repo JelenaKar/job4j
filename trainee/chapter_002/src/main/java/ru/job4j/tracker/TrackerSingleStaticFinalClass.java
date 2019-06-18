@@ -14,10 +14,10 @@ public class TrackerSingleStaticFinalClass {
     }
 
     public static final class Holder {
-        private static final Tracker INSTANCE = new Tracker();
+        private static final ITracker INSTANCE = new Tracker();
     }
 
-    public static Tracker getInstance() {
+    public static ITracker getInstance() {
         return Holder.INSTANCE;
     }
 }

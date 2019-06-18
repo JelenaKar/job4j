@@ -7,13 +7,13 @@ package ru.job4j.tracker;
  * @since 0.1
  */
 public class TrackerSingleStaticFinalField {
-    private static final Tracker INSTANCE = new Tracker();
+    private static final ITracker INSTANCE = new Tracker();
 
     private TrackerSingleStaticFinalField() {
 
     }
 
-    public static Tracker getInstance() {
+    public static ITracker getInstance() {
         return INSTANCE;
     }
 }
