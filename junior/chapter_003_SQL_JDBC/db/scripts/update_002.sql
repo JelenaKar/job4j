@@ -1,0 +1,1 @@
+CREATE TABLE vacancy (id serial PRIMARY KEY, name varchar(1024), "text" text, link varchar(2028), created bigint, CONSTRAINT "unique_name" UNIQUE (name));
