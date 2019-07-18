@@ -57,4 +57,11 @@ public class Calculator {
 		return this.result;
 	}
 
+	/**
+	 * Метод, стирающий результат из памяти.
+	 */
+	public void eraseResult() {
+		this.result = 0;
+	}
+
 }
