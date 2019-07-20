@@ -3,6 +3,8 @@ package ru.job4j.srp;
 import ru.job4j.calculator.Calculator;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Интерактивный калькулятор - оболочка над классом Calculator.
@@ -15,6 +17,8 @@ public class InteractCalc extends Calculator {
 
     private BufferedReader in;
     private PrintStream out = System.out;
+    protected List<Menu> menuList = new ArrayList<>();
+    protected final static String LN = System.lineSeparator();
 
     /**
      * Конструтор инициализирующий поля.
@@ -22,6 +26,7 @@ public class InteractCalc extends Calculator {
      */
     public InteractCalc(InputStream in) {
         this.in = new BufferedReader(new InputStreamReader(in));
+        this.makeMenu();
     }
 
     /**
@@ -36,11 +41,11 @@ public class InteractCalc extends Calculator {
                 this.out.println("Операция должна быть целым числом в интервале 1-5!");
             } else {
                 op = Integer.parseInt(answer);
-                double[] nums;
-                if (op != 5) {
+                Double[] nums;
+                if (op != (this.menuList.size() + 1)) {
                     do {
-                        nums = this.askNumbers();
-                        this.showResult(nums[0], nums[1], op);
+                        nums = this.askNumbers(this.menuList.get(op - 1).getAmount());
+                        this.showResult(nums, op);
                         if (this.getResult() != 0) {
                             this.out.print("Сохранить результат для следующей операции? (y/n) ");
                             if (!"y".equals(in.readLine())) {
@@ -51,35 +56,18 @@ public class InteractCalc extends Calculator {
                     } while ("y".equals(in.readLine()));
                 }
             }
-        } while (op != 5);
+        } while (op != (this.menuList.size() + 1));
         this.in.close();
         this.out.close();
     }
 
     /**
      * Распечатать результаты вычисления.
-     * @param first первое вещественное число.
-     * @param second второе вещественное число.
+     * @param nums - входящий массив вещественных чисел.
      * @param action номер выбранного пункта меню.
      */
-    private void showResult(Double first, Double second, int action) {
-        switch (action) {
-            case 1:
-                this.add(first, second);
-                break;
-            case 2:
-                this.subtract(first, second);
-                break;
-            case 3:
-                this.multiple(first, second);
-                break;
-            case 4:
-                this.div(first, second);
-                break;
-            case 5:
-                break;
-            default:
-        }
+    private void showResult(Double[] nums, int action) {
+        this.menuList.get(action - 1).getAction().apply(nums);
         this.out.println("Результат равен: " + this.getResult());
     }
 
@@ -96,7 +84,7 @@ public class InteractCalc extends Calculator {
         } catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
-        if (d < 1 || d > 5) {
+        if (d < 1 || d > (this.menuList.size() + 1)) {
             res = false;
         }
         return res;
@@ -116,18 +104,41 @@ public class InteractCalc extends Calculator {
     }
 
     /**
+     * Создаёт меню из списка.
+     */
+    public void makeMenu() {
+        this.menuList.addAll(List.of(
+                new Menu("Сложение", x -> {
+                    this.add(x[0], x[1]);
+                    return null;
+                }, 2),
+                new Menu("Вычитание", x -> {
+                    this.subtract(x[0], x[1]);
+                    return null;
+                }, 2),
+                new Menu("Умножение", x -> {
+                    this.multiple(x[0], x[1]);
+                    return null;
+                }, 2),
+                new Menu("Деление", x -> {
+                    this.div(x[0], x[1]);
+                    return null;
+                }, 2)
+        ));
+    }
+
+    /**
      * Возвращает стандартное меню в виде строки.
      * @return меню.
      */
     public String getMenu() {
-        final String LN = System.lineSeparator();
-        String menu = "Простейший калькулятор:" + LN
-            + "1. Сложение" + LN
-            + "2. Вычитание" + LN
-            + "3. Умножение" + LN
-            + "4. Деление" + LN
-            + "5. Выход" + LN
-            + "Выберите операцию: ";
+        String menu = "Простейший калькулятор:" + LN;
+        int i = 1;
+        for (Menu elem : menuList) {
+            menu += String.format("%d. %s", i++, elem.getName() + LN);
+        }
+        menu += String.format("%d. Выход%s", this.menuList.size() + 1, LN);
+        menu += "Выберите операцию: ";
         return menu;
     }
 
@@ -135,21 +146,21 @@ public class InteractCalc extends Calculator {
      * Запрашивает ввод вещественных чисел у пользователя.
      * @return 2 вещественных числа в виде массива.
      */
-    private double[] askNumbers() throws IOException {
-        double[] res = new double[2];
-        double first = this.getResult();
+    private Double[] askNumbers(int amount) throws IOException {
+        Double[] res = new Double[amount];
+        Double first = this.getResult();
         int i = 0;
         if (first != 0) {
             res[i++] = first;
         }
-        do {
+        while (i != amount) {
             this.out.printf("Введите %d-е число: ", i + 1);
             String userNum = in.readLine();
             if (this.isDouble(userNum)) {
                 res[i++] = Double.valueOf(userNum);
             }
 
-        } while (i != 2);
+        }
         return res;
     }
 

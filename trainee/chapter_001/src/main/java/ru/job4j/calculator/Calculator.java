@@ -10,7 +10,7 @@ public class Calculator {
 	/**
 	 * Поле с результатом вычисления.
 	 */
-	private double result;
+	protected double result;
 
 	/**
 	 * Метод add.
