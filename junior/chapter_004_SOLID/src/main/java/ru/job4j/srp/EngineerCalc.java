@@ -1,7 +1,5 @@
 package ru.job4j.srp;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -16,10 +14,27 @@ public class EngineerCalc extends InteractCalc {
     /**
      * Конструтор инициализирующий поля.
      *
-     * @param in входной поток.
      */
-    public EngineerCalc(InputStream in) {
-        super(in);
+    public EngineerCalc() {
+        super();
+        this.operations.addAll(List.of(
+                new Action("Рассчитать sin(x)", x -> {
+                    this.sin(x[0]);
+                    return null;
+                }, 1),
+                new Action("Рассчитать cos(x)", x -> {
+                    this.cos(x[0]);
+                    return null;
+                }, 1),
+                new Action("Рассчитать tan(x)", x -> {
+                    this.tan(x[0]);
+                    return null;
+                }, 1),
+                new Action("Рассчитать cot(x)", x -> {
+                    this.cot(x[0]);
+                    return null;
+                }, 1)
+        ));
     }
 
     /**
@@ -52,49 +67,5 @@ public class EngineerCalc extends InteractCalc {
      */
     public void cot(double x) {
         this.result = 1.0 / Math.tan(x);
-    }
-
-    /**
-     * Добавляет пункты расчёта тригонометрических функций.
-     */
-    @Override
-    public void makeMenu() {
-        super.makeMenu();
-        this.menuList.add(new Menu("Рассчитать sin(x)", x -> {
-            this.sin(x[0]);
-            System.out.println(x[0]);
-            return null;
-        }, 1));
-
-        this.menuList.add(new Menu("Рассчитать cos(x)", x -> {
-            this.cos(x[0]);
-            System.out.println(x[0]);
-            return null;
-        }, 1));
-
-        this.menuList.add(new Menu("Рассчитать tan(x)", x -> {
-            this.tan(x[0]);
-            System.out.println(x[0]);
-            return null;
-        }, 1));
-
-        this.menuList.add(new Menu("Рассчитать cot(x)", x -> {
-            this.cot(x[0]);
-            System.out.println(x[0]);
-            return null;
-        }, 1));
-    }
-
-    /**
-     * Запуск программы.
-     * @param args аргументы командной строки.
-     */
-    public static void main(String[] args) {
-        EngineerCalc ic = new EngineerCalc(System.in);
-        try {
-            ic.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
