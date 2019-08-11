@@ -149,4 +149,74 @@ public class ControlQualityTest {
         assertThat(trashProducts.peek().getPrice(), is(0.0));
     }
 
+    /**
+     * Если не хватает места в обычном хранилище, то начинаем сохранять в новое, усовершенствованное.
+     */
+    @Test
+    public void whenOverflowUsualCapacityThenSaveInSuperWarehouse() {
+        Warehouse wh = new UsualWarehouse(new LinkedList<>(
+                List.of(new Cheese("Happy Cow", System.currentTimeMillis(), 230),
+                        new Eggs("Курочка Ряба", System.currentTimeMillis(), 100),
+                        new Milk("Домашнее", System.currentTimeMillis(), 150),
+                        new Eggs("Моя ферма", System.currentTimeMillis(), 120))
+        ));
+
+        Warehouse superWh = new SuperWarehouse(new LinkedList<>());
+        ControlQuality cc = new ControlQuality(List.of(wh, superWh));
+        cc.sortProducts();
+
+        Queue<Food> foods = wh.getStorage();
+        assertThat(foods.size(), is(3));
+
+        foods = superWh.getStorage();
+        assertThat(foods.size(), is(1));
+        assertThat(foods.peek().getName(), is("Моя ферма"));
+        assertThat(foods.peek().getPrice(), is(120.0));
+    }
+
+    /**
+     * Если приходят овощи, то сохраняем в холодном хранилище.
+     */
+    @Test
+    public void whenAddVegatbleThenSaveItInColdWarehouse() {
+        Warehouse wh = new UsualWarehouse(new LinkedList<>(
+                List.of(new Cucumber("Особые", System.currentTimeMillis(), 90))
+        ));
+
+        Warehouse superWh = new SuperWarehouse(new LinkedList<>(
+                List.of(new Corn("Лакомка", System.currentTimeMillis(), 150))
+        ));
+
+        Warehouse coldWarehouse = new ColdWarehouse(new LinkedList<>());
+        ControlQuality cc = new ControlQuality(List.of(wh, coldWarehouse, superWh));
+        cc.sortProducts();
+
+        assertThat(wh.getStorage().size(), is(0));
+        assertThat(superWh.getStorage().size(), is(0));
+        assertThat(coldWarehouse.getStorage().size(), is(2));
+    }
+
+    /**
+     * Если можно переработать, то оптавляем на переработку.
+     */
+    @Test
+    public void whenCanReproductThenSentItOnReproduction() {
+        Warehouse superWh = new SuperWarehouse(new LinkedList<>(
+                List.of(new Corn("Лакомка", System.currentTimeMillis() - 31L * 24 * 60 * 60 * 1000, 150),
+                        new Cucumber("Особые", System.currentTimeMillis() - 21L * 24 * 60 * 60 * 1000, 90))
+        ));
+
+        Trash smart = new SmartTrash(new LinkedList<>());
+        Trash reproduction = new Reproduction(new LinkedList<>());
+
+        ControlQuality cc = new ControlQuality(List.of(superWh, smart, reproduction));
+        cc.sortProducts();
+
+        assertThat(superWh.getStorage().size(), is(0));
+        assertThat(smart.getStorage().size(), is(1));
+        assertThat(smart.getStorage().peek().getName(), is("Особые"));
+        assertThat(reproduction.getStorage().size(), is(1));
+        assertThat(reproduction.getStorage().peek().getName(), is("Лакомка"));
+    }
+
 }

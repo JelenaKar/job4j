@@ -16,6 +16,7 @@ public abstract class Food {
     protected long expireDate;
     protected double price;
     protected double discount;
+    protected boolean canReproduct;
 
     public Food(String name, long createDate, long expireDate, double price, double discount) {
         this.name = name;
@@ -23,6 +24,15 @@ public abstract class Food {
         this.expireDate = expireDate;
         this.price = price;
         this.discount = discount;
+        this.canReproduct = false;
+    }
+    public Food(String name, long createDate, long expireDate, double price, double discount, boolean canReproduct) {
+        this.name = name;
+        this.createDate = createDate;
+        this.expireDate = expireDate;
+        this.price = price;
+        this.discount = discount;
+        this.canReproduct = canReproduct;
     }
 
     protected void setDiscountPrice() {
