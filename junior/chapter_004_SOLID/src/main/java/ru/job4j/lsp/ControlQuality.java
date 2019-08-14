@@ -19,21 +19,25 @@ public class ControlQuality {
         this.storages = storages;
     }
 
+    public void add(Food food) {
+        for (Storage storage : storages) {
+            if (storage.accept(food)) {
+                break;
+            }
+        }
+    }
+
     /**
-     * Метод, сортирующий продукты по хранилищам.
+     * Метод, автоматически пересортирующий продукты по хранилищам.
      */
-    public void sortProducts() {
+    public void resort() {
         Queue<Food> tmp = new LinkedList<>();
         for (Storage storage : storages) {
             tmp.addAll(storage.extractStorage());
         }
         while (!tmp.isEmpty()) {
             Food food = tmp.poll();
-            for (Storage storage : storages) {
-                if (storage.accept(food)) {
-                    break;
-                }
-            }
+            this.add(food);
         }
     }
 }

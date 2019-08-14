@@ -34,7 +34,7 @@ public class ControlQualityTest {
         ));
         Trash trash = new Trash(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(trash, shop, wh));
-        cc.sortProducts();
+        cc.resort();
 
         Queue<Food> whProducts = wh.getStorage();
         assertThat(whProducts.size(), is(1));
@@ -68,7 +68,7 @@ public class ControlQualityTest {
         Shop shop = new Shop(new LinkedList<>());
         Trash trash = new Trash(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, shop, trash));
-        cc.sortProducts();
+        cc.resort();
 
         Queue<Food> whProducts = wh.getStorage();
         assertThat(whProducts.size(), is(1));
@@ -92,7 +92,7 @@ public class ControlQualityTest {
         Shop shop = new Shop(new LinkedList<>());
         Trash trash = new Trash(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, shop, trash));
-        cc.sortProducts();
+        cc.resort();
 
         assertThat(wh.getStorage().isEmpty(), is(true));
 
@@ -115,7 +115,7 @@ public class ControlQualityTest {
         Shop shop = new Shop(new LinkedList<>());
         Trash trash = new Trash(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, shop, trash));
-        cc.sortProducts();
+        cc.resort();
 
         assertThat(wh.getStorage().isEmpty(), is(true));
 
@@ -138,7 +138,7 @@ public class ControlQualityTest {
         Shop shop = new Shop(new LinkedList<>());
         Trash trash = new Trash(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, shop, trash));
-        cc.sortProducts();
+        cc.resort();
 
         assertThat(wh.getStorage().isEmpty(), is(true));
         assertThat(shop.getStorage().isEmpty(), is(true));
@@ -163,7 +163,7 @@ public class ControlQualityTest {
 
         Warehouse superWh = new SuperWarehouse(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, superWh));
-        cc.sortProducts();
+        cc.resort();
 
         Queue<Food> foods = wh.getStorage();
         assertThat(foods.size(), is(3));
@@ -189,7 +189,7 @@ public class ControlQualityTest {
 
         Warehouse coldWarehouse = new ColdWarehouse(new LinkedList<>());
         ControlQuality cc = new ControlQuality(List.of(wh, coldWarehouse, superWh));
-        cc.sortProducts();
+        cc.resort();
 
         assertThat(wh.getStorage().size(), is(0));
         assertThat(superWh.getStorage().size(), is(0));
@@ -210,7 +210,7 @@ public class ControlQualityTest {
         Trash reproduction = new Reproduction(new LinkedList<>());
 
         ControlQuality cc = new ControlQuality(List.of(superWh, smart, reproduction));
-        cc.sortProducts();
+        cc.resort();
 
         assertThat(superWh.getStorage().size(), is(0));
         assertThat(smart.getStorage().size(), is(1));
