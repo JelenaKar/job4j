@@ -19,6 +19,7 @@
         <module>chapter_002_IO</module>
         <module>chapter_003_SQL_JDBC</module>
         <module>chapter_004_SOLID</module>
+        <module>chapter_005_Garbage_collection</module>
     </modules>
 
     <profiles>
