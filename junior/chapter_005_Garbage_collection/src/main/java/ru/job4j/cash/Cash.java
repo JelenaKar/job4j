@@ -30,11 +30,7 @@ public class Cash {
         return this.storage.computeIfAbsent(new SoftRefKey<>(file),
                 refKey -> {
                     URL url = Cash.class.getClassLoader().getResource(refKey.get());
-                    try {
-                        return this.readFileContent(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
-                    } catch (NullPointerException e) {
-                        return null;
-                    }
+                    return (url == null) ? null : this.readFileContent(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
                 });
     }
 
