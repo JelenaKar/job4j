@@ -32,13 +32,9 @@ public class SimpleBlockingQueue<T> {
      * Добавляет элемент в очередь, если имеется свободное место.
      * @param value новое добавляемое значение.
      */
-    public synchronized void offer(T value) {
+    public synchronized void offer(T value) throws InterruptedException {
         while (queue.size() >= bound) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait();
         }
         queue.offer(value);
         notifyAll();
@@ -48,13 +44,9 @@ public class SimpleBlockingQueue<T> {
      * Извлекает первый элемент из очереди, если она не пуста.
      * @return первый элемент очереди.
      */
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         while (queue.isEmpty()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait();
         }
         T res = queue.poll();
         notifyAll();

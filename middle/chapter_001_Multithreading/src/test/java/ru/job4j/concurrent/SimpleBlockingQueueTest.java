@@ -2,6 +2,10 @@ package ru.job4j.concurrent;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -13,31 +17,38 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 public class SimpleBlockingQueueTest {
-
+    final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
     private final SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>(3);
-    private final Runnable producer = () -> {
-        for (int i = 1; i < 6; i++) {
-            blockingQueue.offer(i);
-        }
-    };
+
+    private final Thread producer = new Thread(() -> IntStream.range(0, 5).forEach(
+            x -> {
+                try {
+                    blockingQueue.offer(x);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }));
 
 
-    private final Runnable consumer = () -> {
-        for (int i = 1; i < 6; i++) {
-            blockingQueue.poll();
+    private final Thread consumer = new Thread(() -> {
+       while (blockingQueue.size() > 0 || !Thread.currentThread().isInterrupted()) {
+            try {
+                buffer.add(blockingQueue.poll());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
-    };
+    });
 
     /**
      * Тестирование блокировки очереди для производителя в случае заполнения очереди.
      */
     @Test
     public void whenQueueOverflowsThenCapacityEqualsBoundAndProducerIsWaiting() throws InterruptedException {
-        Thread thread1 = new Thread(producer);
-        thread1.start();
-        thread1.join(1000);
+        producer.start();
+        producer.join(1000);
         assertThat(blockingQueue.size(), is(3));
-        assertThat(thread1.getState(), is(Thread.State.WAITING));
+        assertThat(producer.getState(), is(Thread.State.WAITING));
     }
 
     /**
@@ -45,26 +56,22 @@ public class SimpleBlockingQueueTest {
      */
     @Test
     public void whenQueueISEmptyThenCapacityEqualsZeroAndConsumerIsWaiting() throws InterruptedException {
-        Thread thread2 = new Thread(consumer, "Consumer1");
-        thread2.start();
-        thread2.join(1000);
+        consumer.start();
+        consumer.join(1000);
         assertThat(blockingQueue.size(), is(0));
-        assertThat(thread2.getState(), is(Thread.State.WAITING));
+        assertThat(consumer.getState(), is(Thread.State.WAITING));
     }
 
     /**
      * Тестирование результатов асинхронной работы шаблона производитель-потребитель.
      */
     @Test
-    public void whenProducerAndConsumerCompleteThenCapacityEqualsZeroAndThreadsAreTerminated() throws InterruptedException {
-        Thread thread1 = new Thread(producer);
-        Thread thread2 = new Thread(consumer);
-        thread1.start();
-        thread2.start();
-        thread1.join();
-        thread2.join();
-        assertThat(blockingQueue.size(), is(0));
-        assertThat(thread1.getState(), is(Thread.State.TERMINATED));
-        assertThat(thread2.getState(), is(Thread.State.TERMINATED));
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+        producer.start();
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        assertThat(buffer, is(Arrays.asList(0, 1, 2, 3, 4)));
     }
 }
