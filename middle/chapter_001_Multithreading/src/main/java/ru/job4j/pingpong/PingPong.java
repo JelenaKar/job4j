@@ -1,4 +1,4 @@
-package pingpong;
+package ru.job4j.pingpong;
 
 import javafx.application.Application;
 import javafx.scene.Group;
