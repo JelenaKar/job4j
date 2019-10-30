@@ -1,8 +1,5 @@
 package ru.job4j.threadsafe;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-
 import java.util.Objects;
 
 /**
@@ -12,11 +9,10 @@ import java.util.Objects;
  * @version 1$
  * @since 0.1
  */
-@ThreadSafe
+
 public class User {
     private final int id;
 
-    @GuardedBy("this")
     private double amount;
 
     public User(int id, double amount) {
@@ -24,7 +20,7 @@ public class User {
         this.amount = amount;
     }
 
-    public synchronized void setAmount(double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -32,7 +28,7 @@ public class User {
         return this.id;
     }
 
-    public synchronized double getAmount() {
+    public double getAmount() {
         return this.amount;
     }
 

@@ -1,5 +1,8 @@
 package ru.job4j.threadsafe;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,15 +13,17 @@ import java.util.Map;
  * @version 1$
  * @since 0.1
  */
+@ThreadSafe
 public class UserStorage {
 
+    @GuardedBy("this")
     private final Map<Integer, User> storage = new HashMap<>();
 
     /**
      * Добавляет пользовательский аккаунт в хранилище.
      * @param user объект пользователя.
      */
-    public void add(User user) {
+    public synchronized void add(User user) {
         storage.put(user.getId(), user);
     }
 
@@ -27,7 +32,7 @@ public class UserStorage {
      * @param user объект пользователя.
      * @return true если обновления прошли успешно, false если пользователь не найден.
      */
-    public boolean update(User user) {
+    public synchronized boolean update(User user) {
         return storage.computeIfPresent(user.getId(), (k, v) -> user) != null;
     }
 
@@ -36,7 +41,7 @@ public class UserStorage {
      * @param user объект пользователя.
      * @return true если пользователь успешно удалён, false в противном случае.
      */
-    public boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         return storage.remove(user.getId(), user);
     }
 
@@ -44,11 +49,11 @@ public class UserStorage {
      * Рассчитывает общую сумму на всех счетах.
      * @return общая сумма.
      */
-    public double getTotal() {
+    public synchronized double getTotal() {
         return storage.values().stream().map(User::getAmount).mapToDouble(Double::doubleValue).sum();
     }
 
-    public Map<Integer, User> getStorage() {
+    public synchronized Map<Integer, User> getStorage() {
         return storage;
     }
 
@@ -59,7 +64,7 @@ public class UserStorage {
      * @param amount - сумма транзакции.
      * @return true если транзакция произведена успешно, false - в противном случае.
      */
-    public boolean transfer(int fromId, int toId, int amount) {
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
         boolean res = false;
         User fromAccount = storage.get(fromId);
         if (fromAccount.getAmount() >= amount) {
