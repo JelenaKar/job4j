@@ -1,0 +1,73 @@
+package ru.job4j.threadsafe;
+
+<<<<<<< HEAD
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
+=======
+>>>>>>> task_182374
+import java.util.Objects;
+
+/**
+ * Класс-аккаунт пользователя.
+ *
+ * @author Elena Kartashova (kartashova.ee@yandex.ru)
+ * @version 1$
+ * @since 0.1
+ */
+<<<<<<< HEAD
+@ThreadSafe
+public class User {
+    private final int id;
+
+    @GuardedBy("this")
+=======
+
+public class User {
+    private final int id;
+
+>>>>>>> task_182374
+    private double amount;
+
+    public User(int id, double amount) {
+        this.id = id;
+        this.amount = amount;
+    }
+
+<<<<<<< HEAD
+    public synchronized void setAmount(double amount) {
+=======
+    public void setAmount(double amount) {
+>>>>>>> task_182374
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+<<<<<<< HEAD
+    public synchronized double getAmount() {
+=======
+    public double getAmount() {
+>>>>>>> task_182374
+        return this.amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
