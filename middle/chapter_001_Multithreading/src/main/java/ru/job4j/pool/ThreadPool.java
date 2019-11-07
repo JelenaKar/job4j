@@ -40,6 +40,10 @@ public class ThreadPool {
         threads.forEach(Thread::interrupt);
     }
 
+    public boolean isShutdown() {
+        return !isRunning;
+    }
+
     public SimpleBlockingQueue<Runnable> getQueue() {
         return this.tasks;
     }
@@ -47,11 +51,12 @@ public class ThreadPool {
     private final class TaskWorker implements Runnable {
         @Override
         public void run() {
-            while (isRunning) {
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     Runnable nextTask = tasks.poll();
                     nextTask.run();
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
