@@ -12,11 +12,7 @@ import java.util.concurrent.Executors;
  */
 public class EmailNotification {
 
-    private final ExecutorService pool;
-
-    public EmailNotification() {
-        this.pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    }
+    private final ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     /**
      * Создает и выполняет задачу - отправка оповещения заданному пользователю.
@@ -46,8 +42,12 @@ public class EmailNotification {
         this.pool.shutdown();
     }
 
-    public ExecutorService getPool() {
-        return pool;
+    /**
+     * Возвращает информацию остановлен ли сервис.
+     * @return true если сервис остановлен, false - в противном случае.
+     */
+    public boolean isShutdown() {
+        return this.pool.isShutdown();
     }
 
     /**

@@ -18,7 +18,7 @@ public class EmailNotificationTest {
     @Test
     public void whenEmailNotificationIsCreatedThenIsShutdownIsFalse() {
         EmailNotification service = new EmailNotification();
-        assertFalse(service.getPool().isShutdown());
+        assertFalse(service.isShutdown());
     }
 
     /**
@@ -28,7 +28,7 @@ public class EmailNotificationTest {
     public void whenEmailNotificationIsClosedThenIsShutdownIsTrue() {
         EmailNotification service = new EmailNotification();
         service.close();
-        assertTrue(service.getPool().isShutdown());
+        assertTrue(service.isShutdown());
     }
 
 }
