@@ -1,8 +1,5 @@
 package ru.job4j.bomberman;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
  * Класс живого игрока.
  *
@@ -12,26 +9,39 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Bomberman extends Gamer {
 
-    public Bomberman(ReentrantLock[][] board, Cell location) {
-        super(board, location);
+    public Bomberman(Board board) {
+        super(board);
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        while (!Thread.currentThread().isInterrupted()) {
+            Cell dist = this.getCellFromUser();
+            try {
+                if (board.move(this.location, dist)) {
+                    this.location.row = dist.row;
+                    this.location.col = dist.col;
+                    System.out.println(Thread.currentThread().getName() + " Bomberman - " + location);
+                }
+                Thread.sleep(1000);
+                if (board.wasCaptured(location)) {
+                    System.out.println("Игрока съели");
+                    break;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     /**
-     * Реализует передвижение главного героя.
-     * @return true - если ход удалось произвести, false - если выбранная клетка заблокирована другими.
-     * @throws InterruptedException - если приложение остановлено во время хода игрока.
+     * Метод, запрашивающий ход у пользователя.
+     * На данном этапе используется заглушка.
+     * @return ячейку для хода.
      */
-    @Override
-    public boolean move() throws InterruptedException {
-        int row = (int) (Math.random() * board.length), col = (int) (Math.random() * board[0].length);
-        boolean result = board[row][col].tryLock(500, TimeUnit.MILLISECONDS);
-        if (result) {
-            board[this.location.row][this.location.col].unlock();
-            this.location.row = row;
-            this.location.col = col;
-        }
-        //Для отладки
-        System.out.println(Thread.currentThread().getName() + " - " + location);
-        return result;
+    public Cell getCellFromUser() {
+        return board.randomCell();
     }
 }

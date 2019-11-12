@@ -9,24 +9,26 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1$
  * @since 0.1
  */
-public abstract class Gamer implements Moveble {
+public abstract class Gamer implements Runnable {
 
-    protected final ReentrantLock[][] board;
+    protected final Board board;
     protected final Cell location;
 
-    public Gamer(ReentrantLock[][] board, Cell location) {
+    public Gamer(Board board) {
         this.board = board;
-        this.location = location;
+        this.location = new Cell(0, 0);
     }
 
     /**
-     * Осуществляет установку героя на игровую доску.
+     * Устанавливает игрока в свободную ячейку.
      */
     @Override
-    public void set() {
-        while (!board[location.row][location.col].tryLock()) {
-            location.row = (int) (Math.random() * board.length);
-            location.col = (int) (Math.random() * board[0].length);
-        }
+    public void run() {
+        Cell start;
+        do {
+            start = board.randomCell();
+        } while (!board.set(start));
+        this.location.row = start.row;
+        this.location.col = start.col;
     }
 }
