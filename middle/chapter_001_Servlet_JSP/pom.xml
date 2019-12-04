@@ -3,24 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>From-0-To-Work</artifactId>
+        <artifactId>middle</artifactId>
         <groupId>ru.job4j</groupId>
         <version>2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>middle</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>chapter_001_Multithreading</module>
-        <module>chapter_001_Servlet_JSP</module>
-    </modules>
+    <packaging>war</packaging>
+    <artifactId>chapter_001_Servlet_JSP</artifactId>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/net.jcip/jcip-annotations -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
-            <groupId>net.jcip</groupId>
-            <artifactId>jcip-annotations</artifactId>
-            <version>1.0</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
