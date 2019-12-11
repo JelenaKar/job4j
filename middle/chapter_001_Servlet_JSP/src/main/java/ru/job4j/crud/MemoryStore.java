@@ -2,7 +2,6 @@ package ru.job4j.crud;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * Объект хранилища в текущей памяти.
