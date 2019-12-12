@@ -1,5 +1,6 @@
 package ru.job4j.crud;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,37 +22,14 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html; charset=UTF-8");
-        try (PrintWriter writer = new PrintWriter(resp.getOutputStream())) {
-            String name = "";
-            String login = "";
-            String email = "";
-            User user = USER_THREAD_LOCAL.get();
-            if (user != null) {
-                name = user.getName();
-                login = user.getLogin();
-                email = user.getEmail();
-            }
-            writer.append("<!DOCTYPE html>")
-                    .append("<html lang=\"ru\">")
-                    .append("<head>")
-                        .append("<meta charset=\"UTF-8\">")
-                        .append("<title>Создание пользователя</title>")
-                    .append("</head>")
-                    .append("<body>")
-                        .append("<form method=\"post\">")
-                            .append("<input type=\"text\" name=\"name\" value=\"" + name + "\" placeholder=\"Имя пользователя\">")
-                            .append("<input type=\"text\" name=\"login\" value=\"" + login + "\" placeholder=\"Логин\">")
-                            .append("<input type=\"text\" name=\"email\" value=\"" + email + "\" placeholder=\"E-mail\">")
-                            .append("<button type=\"submit\">Добавить пользователя</button>")
-                        .append("</form>");
-                    if (STATUS_THREAD_LOCAL.get() != null) {
-                        writer.append("<div>" + STATUS_THREAD_LOCAL.get() + "</div>");
-                    }
-                    writer.append("</body>")
-                    .append("</html>");
-            writer.flush();
-        }
+        String status = (STATUS_THREAD_LOCAL.get() != null) ? STATUS_THREAD_LOCAL.get().toString() : "";
+        User user = USER_THREAD_LOCAL.get();
+        req.setAttribute("title", "Создание пользователя");
+        req.setAttribute("user", user);
+        req.setAttribute("status", status);
+        req.setAttribute("button", "Добавить");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/user.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     @Override

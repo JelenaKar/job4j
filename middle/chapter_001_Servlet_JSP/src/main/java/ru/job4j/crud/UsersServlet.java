@@ -1,13 +1,14 @@
 package ru.job4j.crud;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Сервлет, осуществляющий просмотр и удаление пользователей.
@@ -23,43 +24,11 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html; charset=UTF-8");
-        try (PrintWriter writer = new PrintWriter(resp.getOutputStream())) {
-            writer.append("<!DOCTYPE html>")
-                    .append("<html lang=\"ru\">")
-                    .append("<head>")
-                        .append("<meta charset=\"UTF-8\">")
-                        .append("<title>Просмотр всех пользователей</title>")
-                    .append("</head>")
-                    .append("<body>")
-                    .append("<table border=\"1px\">");
-                        logic.findAll().forEach(u -> writer
-                        .append("<tr>")
-                        .append("<td>").append(String.valueOf(u.getId())).append("</td>")
-                        .append("<td>").append(u.getName()).append("</td>")
-                        .append("<td>").append(u.getLogin()).append("</td>")
-                        .append("<td>").append(u.getEmail()).append("</td>")
-                        .append("<td>").append(getFormat().format(u.getCreateDate())).append("</td>")
-                        .append("<td>")
-                            .append("<form method=\"post\" style=\"display:inline\">")
-                                .append("<input type=\"hidden\" name=\"action\" value=\"delete\"/>")
-                                .append("<input type=\"hidden\" name=\"id\" value=\"" + u.getId() + "\"/>")
-                                .append("<button type=\"submit\">Удалить</button>")
-                            .append("</form>")
-                            .append("<form method=\"get\" style=\"display:inline\" action=\"" + req.getContextPath() + "/edit\" >")
-                                .append("<input type=\"hidden\" name=\"id\" value=\"" + u.getId() + "\"/>")
-                                .append("<button type=\"submit\">Редактировать</button>")
-                            .append("</form>")
-                        .append("</td>")
-                        .append("</tr>"));
-                   writer.append("</table>")
-                         .append("<form action=\"" + req.getContextPath() + "/create\">")
-                            .append("<button type=\"submit\">Добавить</button>")
-                         .append("</form>")
-                .append("</body>")
-            .append("</html>");
-            writer.flush();
-        }
+        List<User> users = logic.findAll();
+        req.setAttribute("users", users);
+        req.setAttribute("format", getFormat());
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/list.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     @Override
