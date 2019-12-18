@@ -98,7 +98,7 @@ public class DbStore implements Store {
         List<User> res = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection(); Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(
-                     "SELECT * FROM userstore")) {
+                     "SELECT * FROM userstore ORDER BY id")) {
             while (rs.next()) {
                 res.add(this.userFromDB(rs));
             }

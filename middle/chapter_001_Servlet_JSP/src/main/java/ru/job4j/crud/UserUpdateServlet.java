@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Сервлет, осуществляющий редактирование пользователя.
@@ -35,7 +34,7 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("user", user);
         req.setAttribute("status", status);
         req.setAttribute("button", "Изменить");
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/user.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/views/user.jsp");
         requestDispatcher.forward(req, resp);
     }
 
