@@ -2,6 +2,7 @@ package ru.job4j.crud;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Объект хранилища в текущей памяти.
@@ -14,7 +15,7 @@ public class MemoryStore implements Store {
 
     private static final MemoryStore INSTANCE = new MemoryStore();
     private final Map<Long, User> storage = new ConcurrentHashMap<>();
-    private long increment = 0;
+    private AtomicLong increment = new AtomicLong(0);
 
     private MemoryStore() {
     }
@@ -29,10 +30,7 @@ public class MemoryStore implements Store {
      */
     @Override
     public void add(User user) {
-        long id;
-        synchronized (this) {
-            id = ++increment;
-        }
+        long id = increment.incrementAndGet();
         user.setId(id);
         this.storage.put(id, user);
     }

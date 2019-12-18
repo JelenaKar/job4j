@@ -1,5 +1,7 @@
 package ru.job4j.crud;
 
+import java.util.Objects;
+
 /**
  * Класс пользователя.
  *
@@ -57,5 +59,22 @@ public class User {
 
     public void setCreateDate(long createDate) {
         this.createDate = createDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return this.id == user.id && this.createDate == user.createDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.createDate);
     }
 }

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class ValidateService implements Validate {
     private static final ValidateService INSTANCE = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
     private final Pattern pattern = Pattern.compile("^.+@.+\\..{2,3}$");
 
     private ValidateService() {
