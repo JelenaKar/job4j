@@ -1,7 +1,6 @@
 package ru.job4j.crud;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +16,13 @@ public class ActionDispatcher {
 
     private final Validate logic = ValidateService.getInstance();
     private static final ActionDispatcher INSTANCE = new ActionDispatcher();
-    private final Map<Actions, ThrowableBiFunction<HttpServletRequest, HttpServletResponse, CrudStatus, IOException>> dispatch = new HashMap<>();
+    private final Map<Actions, ThrowableFunction<User, CrudStatus, IOException>> dispatch = new HashMap<>();
 
     private ActionDispatcher() {
         this.dispatch.put(Actions.ADD, this.add());
         this.dispatch.put(Actions.UPDATE, this.update());
         this.dispatch.put(Actions.DELETE, this.delete());
+        this.dispatch.put(Actions.REMOVEPHOTO, this.removePhoto());
     }
 
     public static ActionDispatcher getInstance() {
@@ -33,26 +33,38 @@ public class ActionDispatcher {
      * Обработчик вставки пользователя.
      * @return handle.
      */
-    public ThrowableBiFunction<HttpServletRequest, HttpServletResponse, CrudStatus, IOException> add() {
-        return (req, resp) -> logic.add(new User(req.getParameter("name"),
-                        req.getParameter("login"), req.getParameter("email")));
+    public ThrowableFunction<User, CrudStatus, IOException> add() {
+        return user -> logic.add(user);
     }
 
     /**
      * Обработчик удаления пользователя.
      * @return handle.
      */
-    public ThrowableBiFunction<HttpServletRequest, HttpServletResponse, CrudStatus, IOException> delete() {
-        return (req, resp) -> logic.delete(logic.findById(logic.parseStringIntoLong(req.getParameter("id"))));
+    public ThrowableFunction<User, CrudStatus, IOException> delete() {
+        return user -> logic.delete(user);
     }
 
     /**
      * Обработчик обновления пользователя.
      * @return handle.
      */
-    public ThrowableBiFunction<HttpServletRequest, HttpServletResponse, CrudStatus, IOException> update() {
-        return (req, resp) -> logic.update(new User(logic.parseStringIntoLong(req.getParameter("id")), req.getParameter("name"),
-                        req.getParameter("login"), req.getParameter("email")));
+    public ThrowableFunction<User, CrudStatus, IOException> update() {
+        return user -> logic.update(user);
+    }
+
+    /**
+     * Обработчик удаления фото пользователя.
+     * @return handle.
+     */
+    public ThrowableFunction<User, CrudStatus, IOException> removePhoto() {
+        return user -> {
+            boolean delete = new File(User.IMG_DIR + File.separator + user.getPhotoid()).delete();
+            if (!delete) {
+                return CrudStatus.PHOTO_REMOVE_FAILED;
+            }
+            return logic.removePhoto(user);
+        };
     }
 
     /**
@@ -60,7 +72,7 @@ public class ActionDispatcher {
      * @param action операция.
      * @param handle обработчик операции.
      */
-    public void load(Actions action, ThrowableBiFunction<HttpServletRequest, HttpServletResponse, CrudStatus, IOException> handle) {
+    public void load(Actions action, ThrowableFunction<User, CrudStatus, IOException> handle) {
         this.dispatch.put(action, handle);
     }
 
@@ -70,7 +82,7 @@ public class ActionDispatcher {
      * @param action операция.
      * @return статус завершения операции.
      */
-    public CrudStatus execute(Actions action, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return this.dispatch.get(action).apply(req, resp);
+    public CrudStatus execute(Actions action, User user) throws IOException {
+        return this.dispatch.get(action).apply(user);
     }
 }

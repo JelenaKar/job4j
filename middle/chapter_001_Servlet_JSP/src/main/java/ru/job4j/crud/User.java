@@ -1,5 +1,6 @@
 package ru.job4j.crud;
 
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -16,21 +17,25 @@ public class User {
     private String login;
     private String email;
     private long createDate;
+    private String photoid;
+    public static final String IMG_DIR = System.getProperty("user.home") + File.separator + "bin" + File.separator + "images";
 
-    public User(String name, String login, String email) {
+    public User(String name, String login, String email, String photoid) {
         this.id = 0;
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = System.currentTimeMillis();
+        this.photoid = photoid;
     }
 
-    public User(long id, String name, String login, String email) {
+    public User(long id, String name, String login, String email, String photoid) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = System.currentTimeMillis();
+        this.photoid = photoid;
     }
 
     public long getId() {
@@ -59,6 +64,14 @@ public class User {
 
     public void setCreateDate(long createDate) {
         this.createDate = createDate;
+    }
+
+    public String getPhotoid() {
+        return photoid;
+    }
+
+    public void setPhotoid(String photoid) {
+        this.photoid = photoid;
     }
 
     @Override

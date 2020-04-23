@@ -3,15 +3,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>${title}</title>
 </head>
-<body>
-    <form method="post">
+<body style="margin: 8px;">
+    <form id="userForm" method="post" enctype="multipart/form-data">
         <input type="text" name="name" value="<c:if test="${user != null}"><c:out value="${user.name}"/></c:if>" placeholder="Имя пользователя"/>
         <input type="text" name="login" value="<c:if test="${user != null}"><c:out value="${user.login}"/></c:if>" placeholder="Логин"/>
         <input type="text" name="email" value="<c:if test="${user != null}"><c:out value="${user.email}"/></c:if>" placeholder="E-mail"/>
-        <button type="submit">${button}</button>
+        <input type="hidden" name="photoid" value="<c:if test="${user != null}"><c:out value="${user.photoid}"/></c:if>"/>
+        <button type="submit" name="action" value="${action}">${button}</button>
     </form>
-<div>${status}</div>
+    <div style="color: crimson">${status}</div>
+    <h3>Фото профиля</h3>
+    <c:choose>
+        <c:when test="${user != null && user.photoid != null}">
+            <img src="${pageContext.servletContext.contextPath}/download?name=${user.photoid}" width="100px">
+            <button form="userForm" type="submit" name="action" value="removePhoto" class="w3-btn w3-red">Удалить фото</button>
+            <h5>Изменить изображение</h5>
+        </c:when>
+        <c:otherwise>
+            <div>Фото отсутствует</div>
+            <h5>Загрузка изображения</h5>
+        </c:otherwise>
+    </c:choose>
+    <div><input form="userForm" type="file" name="file"></div>
 </body>
 </html>

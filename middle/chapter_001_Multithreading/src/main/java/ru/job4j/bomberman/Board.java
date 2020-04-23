@@ -1,5 +1,7 @@
 package ru.job4j.bomberman;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -87,6 +89,8 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        new Board(4, 5, 4, 3);
+        //new Board(4, 5, 4, 3);
+        List<String> test = new ArrayList<>();
+        test.add("Hel");
     }
 }

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
 
 /**
  * Сервлет, осуществляющий просмотр и удаление пользователей.
@@ -28,7 +27,7 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        dispatcher.execute(Actions.DELETE, req, resp);
+        dispatcher.execute(Actions.DELETE, logic.findById(logic.parseStringIntoLong(req.getParameter("id"))));
         doGet(req, resp);
     }
 }

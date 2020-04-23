@@ -10,11 +10,16 @@ package ru.job4j.crud;
  */
 public enum CrudStatus {
     INSERTION_SUCCESS("Пользователь успешно добавлен"),
+    INSERTION_FAILED("Ошибка при добавлении нового пользователя"),
     UPDATE_SUCCESS("Пользователь успешно изменен"),
+    UPDATE_FAILED("Ошибка при изменении данных пользователя"),
     DELETE_SUCCESS("Пользователь успешно удален"),
     WRONG_EMAIL("Неверный формат email"),
     WRONG_ID("Пользователь с таким id не существует"),
-    WRONG_USER_INFO("Не указаны или некорректно указаны поля name, login и email: не могут быть пустыми.");
+    WRONG_USER_INFO("Не указаны или некорректно указаны поля name, login и email: не могут быть пустыми."),
+    FORM_UPLOAD_FAILED("Ошибка загрузки формы"),
+    PHOTO_REMOVE_FAILED("Ошибка при удалении фото"),
+    PHOTO_REMOVE_SUCCESS("Фото успешно удалено");
 
 
     private final String levelCode;

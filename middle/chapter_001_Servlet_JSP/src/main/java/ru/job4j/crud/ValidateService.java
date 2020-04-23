@@ -1,5 +1,11 @@
 package ru.job4j.crud;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -11,6 +17,7 @@ import java.util.regex.Pattern;
  * @since 0.1
  */
 public class ValidateService implements Validate {
+    private static final Logger LOG = LogManager.getLogger(ValidateService.class);
     private static final ValidateService INSTANCE = new ValidateService();
     private final Store store = DbStore.getInstance();
     private final Pattern pattern = Pattern.compile("^.+@.+\\..{2,3}$");
@@ -35,7 +42,12 @@ public class ValidateService implements Validate {
         if (!this.pattern.matcher(user.getEmail()).find()) {
             return CrudStatus.WRONG_EMAIL;
         }
-        this.store.add(user);
+        try {
+            this.store.add(user);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return CrudStatus.INSERTION_FAILED;
+        }
         return CrudStatus.INSERTION_SUCCESS;
     }
 
@@ -55,7 +67,12 @@ public class ValidateService implements Validate {
         if (!this.pattern.matcher(user.getEmail()).find()) {
             return CrudStatus.WRONG_EMAIL;
         }
-        this.store.update(user);
+        try {
+            this.store.update(user);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return CrudStatus.UPDATE_FAILED;
+        }
         return CrudStatus.UPDATE_SUCCESS;
     }
 
@@ -66,11 +83,36 @@ public class ValidateService implements Validate {
      */
     @Override
     public CrudStatus delete(User user) {
-        if (user == null || this.findById(user.getId()) == null) {
+        User deletedUser = this.findById(user.getId());
+        if (user == null || deletedUser == null) {
             return CrudStatus.WRONG_ID;
         }
-        this.store.delete(user);
+        if (deletedUser.getPhotoid() != null) {
+            try {
+                Files.delete(Path.of(User.IMG_DIR + File.separator + deletedUser.getPhotoid()));
+                this.store.delete(user);
+            } catch (Exception e) {
+                LOG.error(e.getMessage());
+                return CrudStatus.PHOTO_REMOVE_FAILED;
+            }
+        }
         return CrudStatus.DELETE_SUCCESS;
+    }
+    /**
+     * Удаляет фото пользователя.
+     * @param user - объект пользователя.
+     * @return статус успешности операции.
+     */
+    @Override
+    public CrudStatus removePhoto(User user) {
+        try {
+            user.setPhotoid(null);
+            this.store.update(user);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return CrudStatus.PHOTO_REMOVE_FAILED;
+        }
+        return CrudStatus.PHOTO_REMOVE_SUCCESS;
     }
 
     /**
@@ -80,7 +122,12 @@ public class ValidateService implements Validate {
      */
     @Override
     public User findById(long id) {
-        return this.store.findById(id);
+        try {
+            return this.store.findById(id);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -89,7 +136,12 @@ public class ValidateService implements Validate {
      */
     @Override
     public List<User> findAll() {
-        return this.store.findAll();
+        try {
+            return this.store.findAll();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
     }
 
     private boolean isWrongAttributesNameLoginEmail(User user) {

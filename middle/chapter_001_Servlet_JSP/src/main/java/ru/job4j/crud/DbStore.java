@@ -43,16 +43,15 @@ public class DbStore implements Store {
      * @param user - объект пользователя.
      */
     @Override
-    public void add(User user) {
+    public void add(User user) throws SQLException {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("INSERT INTO userstore (name, login, email, created) VALUES (?, ?, ?, ?)")) {
+             PreparedStatement st = connection.prepareStatement("INSERT INTO userstore (name, login, email, created, photoid) VALUES (?, ?, ?, ?, ?)")) {
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
             st.setLong(4, user.getCreateDate());
+            st.setString(5, user.getPhotoid());
             st.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -61,16 +60,15 @@ public class DbStore implements Store {
      * @param user - объект пользователя.
      */
     @Override
-    public void update(User user) {
+    public void update(User user) throws SQLException {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("UPDATE userstore SET name = ?, login = ?, email = ? WHERE id = ?")) {
+             PreparedStatement st = connection.prepareStatement("UPDATE userstore SET name = ?, login = ?, email = ?, photoid = ? WHERE id = ?")) {
             st.setString(1, user.getName());
             st.setString(2, user.getLogin());
             st.setString(3, user.getEmail());
-            st.setLong(4, user.getId());
+            st.setString(4, user.getPhotoid());
+            st.setLong(5, user.getId());
             st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -79,13 +77,11 @@ public class DbStore implements Store {
      * @param user - объект пользователя.
      */
     @Override
-    public void delete(User user) {
+    public void delete(User user) throws SQLException {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement("DELETE FROM userstore WHERE id = ?")) {
             st.setLong(1, user.getId());
             st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -94,7 +90,7 @@ public class DbStore implements Store {
      * @return список всех пользователей.
      */
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws SQLException {
         List<User> res = new ArrayList<>();
         try (Connection connection = SOURCE.getConnection(); Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(
@@ -102,8 +98,6 @@ public class DbStore implements Store {
             while (rs.next()) {
                 res.add(this.userFromDB(rs));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return res;
     }
@@ -114,7 +108,7 @@ public class DbStore implements Store {
      * @return объект пользователя.
      */
     @Override
-    public User findById(long id) {
+    public User findById(long id) throws SQLException {
         User res = null;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement("SELECT * FROM userstore WHERE id = ?")) {
@@ -123,8 +117,6 @@ public class DbStore implements Store {
             if (rs.next()) {
                 res = this.userFromDB(rs);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return res;
     }
@@ -134,7 +126,8 @@ public class DbStore implements Store {
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("login"),
-                rs.getString("email")
+                rs.getString("email"),
+                rs.getString("photoid")
         );
         res.setCreateDate(rs.getLong("created"));
         return res;
