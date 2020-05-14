@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -87,11 +88,16 @@ public class ValidateService implements Validate {
         if (user == null || deletedUser == null) {
             return CrudStatus.WRONG_ID;
         }
+        try {
+            this.store.delete(user);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return CrudStatus.DELETE_FAILED;
+        }
         if (deletedUser.getPhotoid() != null) {
             try {
                 Files.delete(Path.of(User.IMG_DIR + File.separator + deletedUser.getPhotoid()));
-                this.store.delete(user);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LOG.error(e.getMessage());
                 return CrudStatus.PHOTO_REMOVE_FAILED;
             }
@@ -124,6 +130,26 @@ public class ValidateService implements Validate {
     public User findById(long id) {
         try {
             return this.store.findById(id);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        try {
+            return this.store.findByLogin(login);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        try {
+            return this.store.findByEmail(email);
         } catch (Exception e) {
             LOG.error(e.getMessage());
             return null;

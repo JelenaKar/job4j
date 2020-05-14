@@ -7,6 +7,17 @@
     <title>${title}</title>
 </head>
 <body style="margin: 8px;">
+<div class="w3-bar">
+    <c:choose>
+        <c:when test="${current != null}">
+            <a href="#" class="w3-bar-item w3-button w3-red w3-right">Выйти</a>
+            <span class="w3-bar-item w3-right"><c:out value="${current.name}"/></span>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.servletContext.contextPath}/login" class="w3-bar-item w3-button w3-green w3-right">Войти</a>
+        </c:otherwise>
+    </c:choose>
+</div>
     <form id="userForm" method="post" enctype="multipart/form-data">
         <input type="text" name="name" value="<c:if test="${user != null}"><c:out value="${user.name}"/></c:if>" placeholder="Имя пользователя"/>
         <input type="text" name="login" value="<c:if test="${user != null}"><c:out value="${user.login}"/></c:if>" placeholder="Логин"/>

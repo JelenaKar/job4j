@@ -14,6 +14,7 @@ public enum CrudStatus {
     UPDATE_SUCCESS("Пользователь успешно изменен"),
     UPDATE_FAILED("Ошибка при изменении данных пользователя"),
     DELETE_SUCCESS("Пользователь успешно удален"),
+    DELETE_FAILED("Ошибка при удалении пользователя"),
     WRONG_EMAIL("Неверный формат email"),
     WRONG_ID("Пользователь с таким id не существует"),
     WRONG_USER_INFO("Не указаны или некорректно указаны поля name, login и email: не могут быть пустыми."),

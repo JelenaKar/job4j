@@ -8,6 +8,17 @@
     <title>Просмотр всех пользователей</title>
 </head>
 <body style="margin: 8px;">
+    <div class="w3-bar">
+        <c:choose>
+            <c:when test="${current != null}">
+                <a href="#" class="w3-bar-item w3-button w3-red w3-right">Выйти</a>
+                <span class="w3-bar-item w3-right"><c:out value="${current.name}"/></span>
+            </c:when>
+            <c:otherwise>
+                <a href="${pageContext.servletContext.contextPath}/login" class="w3-bar-item w3-button w3-green w3-right">Войти</a>
+            </c:otherwise>
+        </c:choose>
+    </div>
     <table border="1px" style="border-collapse: collapse; margin: 5px 0 5px 0">
         <c:forEach items="${users}" var="user">
             <tr>

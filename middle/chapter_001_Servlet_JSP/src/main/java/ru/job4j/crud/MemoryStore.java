@@ -72,4 +72,20 @@ public class MemoryStore implements Store {
     public User findById(long id) {
         return this.storage.get(id);
     }
+
+    @Override
+    public User findByLogin(String login) {
+        Optional<User> founded = this.storage.values().stream()
+                .filter(user -> login.equals(user.getLogin()))
+                .findFirst();
+        return founded.get();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<User> founded = this.storage.values().stream()
+                .filter(user -> email.equals(user.getEmail()))
+                .findFirst();
+        return founded.get();
+    }
 }

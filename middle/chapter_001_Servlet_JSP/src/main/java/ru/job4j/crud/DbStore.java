@@ -109,10 +109,25 @@ public class DbStore implements Store {
      */
     @Override
     public User findById(long id) throws SQLException {
+        return this.findByCol("id", id, Types.BIGINT);
+    }
+
+    @Override
+    public User findByLogin(String login) throws Exception {
+        return this.findByCol("login", login, Types.LONGVARCHAR);
+    }
+
+    @Override
+    public User findByEmail(String email) throws Exception {
+        return this.findByCol("email", email, Types.LONGVARCHAR);
+    }
+
+    private User findByCol(String col, Object val, int sqlType) throws SQLException {
         User res = null;
+        String statement = String.format("SELECT * FROM userstore WHERE %s = ?", col);
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("SELECT * FROM userstore WHERE id = ?")) {
-            st.setLong(1, id);
+             PreparedStatement st = connection.prepareStatement(statement)) {
+            st.setObject(1, val, sqlType);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 res = this.userFromDB(rs);
@@ -129,6 +144,7 @@ public class DbStore implements Store {
                 rs.getString("email"),
                 rs.getString("photoid")
         );
+        res.setPassword(rs.getString("password"));
         res.setCreateDate(rs.getLong("created"));
         return res;
     }

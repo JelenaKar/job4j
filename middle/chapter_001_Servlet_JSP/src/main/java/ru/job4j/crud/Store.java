@@ -8,4 +8,6 @@ public interface Store {
     void delete(User user) throws Exception;
     List<User> findAll() throws Exception;
     User findById(long id) throws Exception;
+    User findByLogin(String login) throws Exception;
+    User findByEmail(String email) throws Exception;
 }

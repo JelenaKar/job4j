@@ -11,6 +11,8 @@ public interface Validate {
     CrudStatus removePhoto(User user);
     CrudStatus delete(User user);
     User findById(long id);
+    User findByLogin(String login);
+    User findByEmail(String email);
     List<User> findAll();
     default long parseStringIntoLong(String sNumber) {
         final Logger LOG = LogManager.getLogger(Validate.class);

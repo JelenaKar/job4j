@@ -16,6 +16,7 @@ public class User {
     private String name;
     private String login;
     private String email;
+    private String password;
     private long createDate;
     private String photoid;
     public static final String IMG_DIR = System.getProperty("user.home") + File.separator + "bin" + File.separator + "images";
@@ -72,6 +73,14 @@ public class User {
 
     public void setPhotoid(String photoid) {
         this.photoid = photoid;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
