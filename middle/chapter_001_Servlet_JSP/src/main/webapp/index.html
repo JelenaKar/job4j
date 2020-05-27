@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .table-striped > tbody > tr:nth-of-type(2n+1) {
+            background-color: #fcf8e3;;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Пользовательская форма</h2>
+    <form class="form-horizontal" action="#">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Имя:</label>
+            <div class="col-sm-10 col-md-8">
+                <input type="text" class="form-control" id="name" placeholder="Введите имя" name="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="surname">Фамилия:</label>
+            <div class="col-sm-10 col-md-8">
+                <input type="text" class="form-control" id="surname" placeholder="Введите фамилию" name="surname">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Пол:</label>
+            <div class="col-sm-10 col-md-8">
+                <label class="radio-inline"><input type="radio" name="optradio">М</label>
+                <label class="radio-inline"><input type="radio" name="optradio">Ж</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-sm-2" for="comment">Описание:</label>
+            <div class="col-sm-10 col-md-8">
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 col-md-8">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="remember"> Запомнить меня</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 col-md-8">
+                <button type="submit" class="btn btn-success">Сохранить</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Иван</td>
+            <td>Иванов</td>
+            <td>ivan@example.ru</td>
+        </tr>
+        <tr>
+            <td>Мария</td>
+            <td>Петрова</td>
+            <td>mary@test.com</td>
+        </tr>
+        <tr>
+            <td>Василий</td>
+            <td>Сидоров</td>
+            <td>vasya@yandex.ru</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html> 
