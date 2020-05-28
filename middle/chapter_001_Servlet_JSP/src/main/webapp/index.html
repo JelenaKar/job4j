@@ -12,6 +12,28 @@
             background-color: #fcf8e3;;
         }
     </style>
+    <script>
+        function validate() {
+            var text = true;
+            var sex = false;
+            $('.user').each(
+                (i, obj) => {
+                    if($(obj).val() == "") {
+                        var lable = $(obj).parent().parent().children(0).text().trim();
+                        text = false;
+                        alert("Поле " + lable.substr(0, lable.length - 1) + " обязательно для заполнения!");
+                    }
+                }
+            );
+            $("[type=radio]").each(
+                (i, obj) => { sex |= $(obj).is(':checked') }
+            );
+            if (!sex) {
+                alert("Укажите пол!")
+            }
+            return (text && sex);
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -20,13 +42,13 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Имя:</label>
             <div class="col-sm-10 col-md-8">
-                <input type="text" class="form-control" id="name" placeholder="Введите имя" name="name">
+                <input type="text" class="form-control user" id="name" placeholder="Введите имя" name="name">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="surname">Фамилия:</label>
             <div class="col-sm-10 col-md-8">
-                <input type="text" class="form-control" id="surname" placeholder="Введите фамилию" name="surname">
+                <input type="text" class="form-control user" id="surname" placeholder="Введите фамилию" name="surname">
             </div>
         </div>
         <div class="form-group">
@@ -51,7 +73,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10 col-md-8">
-                <button type="submit" class="btn btn-success">Сохранить</button>
+                <button type="submit" class="btn btn-success" onclick="return validate();">Сохранить</button>
             </div>
         </div>
     </form>
