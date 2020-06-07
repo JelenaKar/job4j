@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function sendGreeting() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8081/chapter_001_Servlet_JSP_war_exploded/greet',
+                data: 'name=' + $('#name').val(),
+                dataType: 'text'
+            }).done(data => addGreetings(data))
+              .fail(err => alert(err));
+        }
+
+        function addGreetings(name) {
+            $('#greetings > strong').text(name);
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div id="greetings" class="col-sm-offset-1 col-md-offset-2"><strong></strong></div>
+    <form class="form-horizontal" method="get">
+        <div class="form-group">
+            <div class="row">
+                <label for="name" class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">Введите имя:</label>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+                    <input type="text" class="form-control" id="name" aria-describedby="userHelp" placeholder="Введите имя" name="name">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 col-md-8">
+                <button type="button" class="btn btn-success" onclick="sendGreeting();">Сохранить</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html> 

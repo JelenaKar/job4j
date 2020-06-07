@@ -17,7 +17,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) sreq;
         HttpServletResponse resp = (HttpServletResponse) sresp;
         String uri = req.getRequestURI();
-        if (uri.endsWith("/login")) {
+        if (uri.endsWith("/login") || uri.contains(".html") || uri.contains("/greet")) {
             chain.doFilter(sreq, sresp);
             return;
         }
