@@ -19,9 +19,9 @@
     </c:choose>
 </div>
     <form id="userForm" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" value="<c:if test="${user != null}"><c:out value="${user.name}"/></c:if>" placeholder="Имя пользователя"/>
-        <input type="text" name="login" value="<c:if test="${user != null}"><c:out value="${user.login}"/></c:if>" placeholder="Логин"/>
-        <input type="text" name="email" value="<c:if test="${user != null}"><c:out value="${user.email}"/></c:if>" placeholder="E-mail"/>
+        <input type="text" name="name" value="<c:if test="${user != null}"><c:out value="${user.name}"/></c:if>" placeholder="Имя пользователя" required/>
+        <input type="text" name="login" value="<c:if test="${user != null}"><c:out value="${user.login}"/></c:if>" placeholder="Логин" required/>
+        <input type="email" name="email" value="<c:if test="${user != null}"><c:out value="${user.email}"/></c:if>" placeholder="E-mail" required/>
         <input type="hidden" name="photoid" value="<c:if test="${user != null}"><c:out value="${user.photoid}"/></c:if>"/>
         <button type="submit" name="action" value="${action}">${button}</button>
     </form>
@@ -29,7 +29,7 @@
     <h3>Фото профиля</h3>
     <c:choose>
         <c:when test="${user != null && user.photoid != null}">
-            <img src="${pageContext.servletContext.contextPath}/download?name=${user.photoid}" width="100px">
+            <img src="${pageContext.servletContext.contextPath}/download?name=${user.photoid}" width="100px" alt="User's photo">
             <button form="userForm" type="submit" name="action" value="removePhoto" class="w3-btn w3-red">Удалить фото</button>
             <h5>Изменить изображение</h5>
         </c:when>
