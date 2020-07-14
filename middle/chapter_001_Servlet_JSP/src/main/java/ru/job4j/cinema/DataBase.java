@@ -117,6 +117,10 @@ public class DataBase implements Storage {
                     bookStatement.setInt(2, row);
                     bookStatement.setInt(3, col);
                     bookStatement.executeUpdate();
+                    int affectedRows = bookStatement.executeUpdate();
+                    if (affectedRows == 0) {
+                        throw new UnsupportedOperationException("Wrong place selected");
+                    }
                 }
                 semaphore.release();
                 try (PreparedStatement debitStatement = connection.prepareStatement(
