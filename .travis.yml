@@ -26,3 +26,4 @@ services:
 
 before_install:
   - psql -c 'create database tracker;' -U postgres
+  - psql -c 'create database hibernate;' -U postgres
