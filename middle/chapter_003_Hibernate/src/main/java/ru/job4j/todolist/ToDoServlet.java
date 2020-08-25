@@ -13,10 +13,11 @@ import java.io.PrintWriter;
 
 public class ToDoServlet extends HttpServlet {
     private final SessionFactory sf = new Configuration().configure("postgresql.cfg.xml").buildSessionFactory();
+    private final Actions dao = Actions.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("items", Actions.findAll(sf));
+        req.setAttribute("items", dao.findAll(sf));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/views/index.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -28,12 +29,12 @@ public class ToDoServlet extends HttpServlet {
         String res;
         ObjectMapper mapper = new ObjectMapper();
         if ("add".equals(operation)) {
-            Item added = Actions.add(new Item(req.getParameter("descr"), req.getParameter("login")), sf);
+            Item added = dao.add(new Item(req.getParameter("descr"), req.getParameter("login")), sf);
             res = mapper.writeValueAsString(added);
         } else {
-            Item updated = Actions.findById(Integer.valueOf(req.getParameter("id")), sf);
+            Item updated = dao.findById(Integer.valueOf(req.getParameter("id")), sf);
             updated.setDone(Boolean.parseBoolean(req.getParameter("isDone")));
-            Actions.update(updated, sf);
+            dao.update(updated, sf);
             res = mapper.writeValueAsString(updated);
         }
         try (PrintWriter writer = new PrintWriter(resp.getOutputStream())) {
