@@ -1,6 +1,7 @@
 package ru.job4j.todolist;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "item")
@@ -9,17 +10,19 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private String login;
     private long created;
     private boolean done;
 
-    public Item() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Item(String description, String login) {
-        this.description = description;
-        this.login = login;
-        this.created = System.currentTimeMillis();
+    public static Item of(String description, User user) {
+        Item item = new Item();
+        item.description = description;
+        item.user = user;
+        item.created = System.currentTimeMillis();
+        return item;
     }
 
     public int getId() {
@@ -38,12 +41,12 @@ public class Item {
         this.description = description;
     }
 
-    public String getLogin() {
-        return login;
+    public User getUser() {
+        return user;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getCreated() {
@@ -60,5 +63,22 @@ public class Item {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Item item = (Item) o;
+        return id == item.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

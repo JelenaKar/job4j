@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,9 +13,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/moment.js"></script>
     <script src="js/main.js"></script>
-    <title>Title</title>
+    <title>To do list</title>
 </head>
 <body>
+<div class="text-right">
+    <div><c:out value="${current.name}"/></div>
+    <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Выйти</a>
+</div>
 <h5>Новое задание</h5>
 <form id="task-form" class="form-inline" method="post" action="">
     <div class="form-group">
@@ -22,8 +27,6 @@
         <input type="text" class="form-control" id="descr" name="descr" placeholder="Введите новое задание">
     </div>
     <div class="form-group">
-        <label for="author">Создан:</label>
-        <input type="text" class="form-control" id="author" name="login" placeholder="Введите логин">
         <input type="hidden" name="op" value="add">
         <button type="submit" class="btn btn-success">Добавить</button>
     </div>
@@ -44,7 +47,7 @@
         <tr id="${item.id}">
             <td><c:out value="${item.id}"/></td>
             <td><c:out value="${item.description}"/></td>
-            <td><c:out value="${item.login}"/></td>
+            <td><c:out value="${item.user.name}"/></td>
             <jsp:useBean id="dateValue" class="java.util.Date"/>
             <jsp:setProperty name="dateValue" property="time" value="${item.created}"/>
             <td><fmt:formatDate value="${dateValue}" pattern="dd.MM.yyyy HH:mm"/></td>

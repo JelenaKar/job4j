@@ -17,7 +17,7 @@ public class ToDoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("items", dao.findAll(sf));
+        req.setAttribute("items", dao.findAll(Item.class, sf, "created DESC"));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/views/index.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -28,12 +28,15 @@ public class ToDoServlet extends HttpServlet {
         String operation = req.getParameter("op");
         String res;
         ObjectMapper mapper = new ObjectMapper();
+        User user = (User) req.getSession().getAttribute("current");
         if ("add".equals(operation)) {
-            Item added = dao.add(new Item(req.getParameter("descr"), req.getParameter("login")), sf);
+            Item added = dao.add(Item.of(req.getParameter("descr"), user), sf);
+            added.getUser().setPassword(null);
             res = mapper.writeValueAsString(added);
         } else {
-            Item updated = dao.findById(Integer.valueOf(req.getParameter("id")), sf);
+            Item updated = dao.findById(Integer.valueOf(req.getParameter("id")), Item.class, sf);
             updated.setDone(Boolean.parseBoolean(req.getParameter("isDone")));
+            updated.getUser().setPassword(null);
             dao.update(updated, sf);
             res = mapper.writeValueAsString(updated);
         }

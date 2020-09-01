@@ -3,6 +3,7 @@ package ru.job4j.todolist;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import java.util.List;
 import java.util.function.Function;
 
@@ -17,26 +18,38 @@ public class Actions {
         return INSTANCE;
     }
 
-    public Item add(Item item, SessionFactory sf) {
+    public <E> E add(E model, SessionFactory sf) {
         return tx(sf, session -> {
-            session.save(item);
-            return item;
+            session.save(model);
+            return model;
         });
     }
 
-    public Item update(Item item, SessionFactory sf) {
+    public <E> E update(E model, SessionFactory sf) {
         return tx(sf, session -> {
-            session.update(item);
-            return item;
+            session.update(model);
+            return model;
         });
     }
 
-    public Item findById(Integer id, SessionFactory sf) {
-        return tx(sf, session -> session.get(Item.class, id));
+    public <E> E findById(Integer id, Class<E> cl, SessionFactory sf) {
+        return tx(sf, session -> session.get(cl, id));
     }
 
-    public List<Item> findAll(SessionFactory sf) {
-        return tx(sf, session -> session.createQuery("from ru.job4j.todolist.Item ORDER BY created DESC").list());
+    public <E> E findByField(Class<E> cl, SessionFactory sf, String field, String val) {
+        return tx(sf, session -> {
+            Query<E> query = session.createQuery("from " + cl.getName() + " WHERE " + field + " = :" + field, cl);
+            query.setParameter(field, val);
+            return query.list().get(0);
+        });
+    }
+
+    public <E> List<E> findAll(Class<E> cl, SessionFactory sf) {
+        return tx(sf, session -> session.createQuery("from " + cl.getName(), cl).list());
+    }
+
+    public <E> List<E> findAll(Class<E> cl, SessionFactory sf, String order) {
+        return tx(sf, session -> session.createQuery("from " + cl.getName() + " ORDER BY " + order, cl).list());
     }
 
     private <T> T tx(final SessionFactory sf, final Function<Session, T> command) {

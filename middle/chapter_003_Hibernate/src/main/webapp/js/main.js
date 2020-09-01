@@ -11,7 +11,7 @@ $(document).ready(() => {
             .fail(err => console.log(err));
     });
 
-    $('input[type="checkbox"]').click(function(){
+    $('#task-table').on('click','input[type="checkbox"]',function(event) {
         $.ajax({
             url : window.location.href,
             type: "POST",
@@ -22,10 +22,10 @@ $(document).ready(() => {
 
 function add(data) {
     const json = JSON.parse(data);
-    const res = '<tr>'
+    const res = '<tr id="' + json.id + '">'
         + '<td>' + json.id + '</td>'
         + '<td>' + json.description + '</td>'
-        + '<td>' + json.login + '</td>'
+        + '<td>' + json.user.name + '</td>'
         + '<td>' + moment(json.created).format('DD.MM.YYYY HH:mm') + '</td>'
         + '<td><input type="checkbox" name="status"></td>'
     + '<tr>';
