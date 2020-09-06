@@ -1,15 +1,30 @@
 package ru.job4j.tracker;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
+@Entity
+@Table(name = "item")
+@SecondaryTable(name = "comments",
+        pkJoinColumns = {
+                @PrimaryKeyJoinColumn(name = "item_id", referencedColumnName = "id")})
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int itemId;
+    @Column(name = "uniqhash")
     private String id;
     private String name;
     private String description;
     private long created;
+    @Column(table = "comments", name = "comment")
     private String comments;
+
+    protected Item() {
+    }
 
     public Item(String name, String description, String comments) {
         this.name = name;
@@ -25,6 +40,14 @@ public class Item {
         this.comments = comments;
     }
 
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -33,12 +56,24 @@ public class Item {
         return this.id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return this.name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getDescription() {
         return this.description;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public String getComments() {
