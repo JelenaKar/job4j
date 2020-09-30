@@ -6,17 +6,35 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <changeSet  id="1"  author="lenin">
-        <sqlFile path="scripts/update_001.sql" relativeToChangelogFile="true"></sqlFile>
+        <sqlFile path="scripts/update_001.sql" relativeToChangelogFile="true"/>
         <rollback>
             <dropTable tableName="users" cascadeConstraints="true"/>
             <dropTable tableName="item"/>
         </rollback>
     </changeSet>
     <changeSet  id="2"  author="lenin">
-        <sqlFile path="scripts/update_002.sql" relativeToChangelogFile="true"></sqlFile>
+        <sqlFile path="scripts/update_002.sql" relativeToChangelogFile="true"/>
         <rollback>
             DELETE FROM item WHERE id=1 OR id=2;
             DELETE FROM users WHERE id=1 OR id=2;
+        </rollback>
+    </changeSet>
+    <changeSet  id="3"  author="lenin">
+        <sqlFile path="scripts/update_003.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <dropTable tableName="history_owner" cascadeConstraints="true"/>
+            <dropTable tableName="driver"/>
+            <dropTable tableName="car"/>
+            <dropTable tableName="engine" cascadeConstraints="true"/>
+        </rollback>
+    </changeSet>
+    <changeSet  id="4"  author="lenin">
+        <sqlFile path="scripts/update_004.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            TRUNCATE TABLE history_owner RESTART IDENTITY;
+            TRUNCATE TABLE driver RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE car RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE engine RESTART IDENTITY CASCADE;
         </rollback>
     </changeSet>
 </databaseChangeLog>

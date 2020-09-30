@@ -1,0 +1,4 @@
+DROP TABLE history_owner;
+DROP TABLE driver CASCADE;
+DROP TABLE car CASCADE;
+DROP TABLE engine CASCADE;

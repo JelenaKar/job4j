@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ru.job4j.cars.xml.CarXML" table="car">
+        <id name="id" type="int" column="id">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">car_id_seq</param>
+                <param name="initial_param">1</param>
+                <param name="increment_size">1</param>
+            </generator>
+        </id>
+        <many-to-one name="engine" column="engine_id"
+                     class="ru.job4j.cars.xml.EngineXML"/>
+        <bag name="drivers" table="history_owner" lazy="false" fetch="subselect">
+            <key column="car_id" not-null="true"/>
+            <many-to-many column="driver_id" class="ru.job4j.cars.xml.DriverXML"/>
+        </bag>
+    </class>
+
+    <class name="ru.job4j.cars.xml.DriverXML" table="driver">
+        <id name="id" type="int" column="id">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">driver_id_seq</param>
+                <param name="initial_param">1</param>
+                <param name="increment_size">1</param>
+            </generator>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <bag name="cars" table="history_owner" lazy="false" fetch="subselect">
+            <key column="driver_id" not-null="true"/>
+            <many-to-many column="car_id" class="ru.job4j.cars.xml.CarXML"/>
+        </bag>
+    </class>
+
+    <class name="ru.job4j.cars.xml.EngineXML" table="engine">
+        <id name="id" type="int" column="id">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">engine_id_seq</param>
+                <param name="initial_param">1</param>
+                <param name="increment_size">1</param>
+            </generator>
+        </id>
+        <bag name="cars" cascade="all-delete-orphan" inverse="true" lazy="false">
+            <key><column name="engine_id"/></key>
+            <one-to-many class="ru.job4j.cars.xml.CarXML"/>
+        </bag>
+    </class>
+</hibernate-mapping>
