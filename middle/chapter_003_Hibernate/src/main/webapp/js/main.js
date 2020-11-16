@@ -18,6 +18,27 @@ $(document).ready(() => {
             data : { id: $(this).closest("tr").attr("id"), isDone: $(this).prop("checked"), op: "update" }
         }).fail(err => console.log(err));
     });
+
+    $('#submitter').click(
+        (event) => {
+            event.preventDefault();
+            const data = $('#login-form').serialize();
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data : data
+            }).done(() => {
+                let url = (document.referrer) ? document.referrer : window.location.href.match(/(.+\/)/g) + "all";
+                    window.location.replace(url);
+                })
+                .fail(err => {
+                    const res = '<div class="w3-container w3-panel w3-pale-red">'
+                        + err.responseText
+                    + '</div>';
+                    $('div#error').html(res);
+                })
+        }
+    );
 });
 
 function add(data) {

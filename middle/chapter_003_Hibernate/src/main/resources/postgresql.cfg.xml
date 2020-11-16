@@ -18,6 +18,17 @@
         <mapping class="ru.job4j.cars.annotations.Driver" />
         <mapping class="ru.job4j.cars.annotations.Engine" />
         <mapping class="ru.job4j.cars.annotations.Car" />
+        <mapping class="ru.job4j.autosale.entities.Auto" />
+        <mapping class="ru.job4j.autosale.entities.BodyStyle" />
+        <mapping class="ru.job4j.autosale.entities.EngineType" />
+        <mapping class="ru.job4j.autosale.entities.DriveUnit" />
+        <mapping class="ru.job4j.autosale.entities.Transmission" />
+        <mapping class="ru.job4j.autosale.entities.Make" />
+        <mapping class="ru.job4j.autosale.entities.Model" />
+        <mapping class="ru.job4j.autosale.entities.Seller"/>
+        <mapping class="ru.job4j.autosale.entities.Ad"/>
+        <mapping class="ru.job4j.autosale.entities.Photo"/>
+        <mapping class="ru.job4j.autosale.entities.Folder"/>
 
         <mapping resource="Cars.hbm.xml"/>
     </session-factory>

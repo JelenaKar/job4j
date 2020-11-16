@@ -17,6 +17,31 @@ body {
     min-width: 50vw;
 }
 
+.my-thumbnail {
+    width: 100px;
+}
+
+div.my-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+div.my-container div {
+    margin-left: 5px;
+}
+
+div.my-container div img {
+    display: block;
+}
+
+#upload-pic > input {
+    display: none;
+}
+
+.image-upload img {
+    width: 100px;
+}
+
 @media screen and (min-width: 768px) {
     #task-form button {
         margin-left: 5px;

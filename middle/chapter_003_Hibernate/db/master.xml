@@ -37,4 +37,43 @@
             TRUNCATE TABLE engine RESTART IDENTITY CASCADE;
         </rollback>
     </changeSet>
+
+    <changeSet  id="5"  author="lenin">
+        <comment>Create database structure for car sale app</comment>
+        <sqlFile path="scripts/update_005.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <dropTable tableName="photo"/>
+            <dropTable tableName="folder" cascadeConstraints="true"/>
+            <dropTable tableName="ad"/>
+            <dropTable tableName="auto" cascadeConstraints="true"/>
+            <dropTable tableName="transmission" cascadeConstraints="true"/>
+            <dropTable tableName="drive_unit" cascadeConstraints="true"/>
+            <dropTable tableName="engine_type" cascadeConstraints="true"/>
+            <dropTable tableName="bodystyle" cascadeConstraints="true"/>
+            <dropTable tableName="model" cascadeConstraints="true"/>
+            <dropTable tableName="make" cascadeConstraints="true"/>
+            <dropTable tableName="seller" cascadeConstraints="true"/>
+        </rollback>
+    </changeSet>
+    <changeSet  id="6"  author="lenin">
+        <comment>Fill service data for sale app</comment>
+        <sqlFile path="scripts/update_006.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            TRUNCATE TABLE transmission RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE drive_unit RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE engine_type RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE bodystyle RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE model RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE make RESTART IDENTITY CASCADE;
+        </rollback>
+    </changeSet>
+    <changeSet  id="7"  author="lenin">
+        <comment>Fill tables with information about users and advertisements</comment>
+        <sqlFile path="scripts/update_007.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            TRUNCATE TABLE ad RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE auto RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE seller RESTART IDENTITY CASCADE;
+        </rollback>
+    </changeSet>
 </databaseChangeLog>

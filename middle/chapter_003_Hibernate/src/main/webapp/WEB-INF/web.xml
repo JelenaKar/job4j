@@ -28,6 +28,94 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdsListServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.MainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdsListServlet</servlet-name>
+        <url-pattern>/all</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdViewServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.AdViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdViewServlet</servlet-name>
+        <url-pattern>/view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdCreateServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.AdCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdCreateServlet</servlet-name>
+        <url-pattern>/create.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdUpdateServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.AdUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdUpdateServlet</servlet-name>
+        <url-pattern>/update.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PhotoDownloadServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.PhotoDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhotoDownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetModelListServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.GetModelListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetModelListServlet</servlet-name>
+        <url-pattern>/models</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.PhotoUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <url-pattern>/upload.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PhotoDeleteServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.PhotoDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhotoDeleteServlet</servlet-name>
+        <url-pattern>/delete.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdCloseServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.AdCloseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdCloseServlet</servlet-name>
+        <url-pattern>/close.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AutosaleLoginServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutosaleLoginServlet</servlet-name>
+        <url-pattern>/in</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AutosaleLogoutServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutosaleLogoutServlet</servlet-name>
+        <url-pattern>/out</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.todolist.AuthFilter</filter-class>
@@ -35,6 +123,14 @@
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/index.html</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>CRUDFilter</filter-name>
+        <filter-class>ru.job4j.autosale.servlets.CRUDFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CRUDFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
     </filter-mapping>
 </web-app>
 

@@ -3,6 +3,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>Авторизация</title>
     <style>
@@ -19,7 +21,7 @@
             <div class="w3-container w3-green">
                 <h2>Авторизироваться</h2>
             </div>
-            <form class="w3-container" method="post">
+            <form class="w3-container" id="login-form" method="post">
                 <p>
                     <label>E-mail:</label>
                     <input class="w3-input" name="email" type="email"></p>
@@ -27,13 +29,9 @@
                     <label>Пароль:</label>
                     <input class="w3-input" name="password" type="password"></p>
                 <br>
-                <button type="submit" class="w3-button w3-green">Войти</button>
+                <button class="w3-button w3-green" id="submitter">Войти</button>
             </form>
-            <c:if test="${error != null}">
-                <div class="w3-container w3-panel w3-pale-red">
-                    <c:out value="${error}"/>
-                </div>
-            </c:if>
+            <div id="error"></div>
         </div>
     </div>
 </body>
