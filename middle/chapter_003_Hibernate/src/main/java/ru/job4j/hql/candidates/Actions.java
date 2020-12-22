@@ -1,4 +1,4 @@
-package ru.job4j.autosale.model;
+package ru.job4j.hql.candidates;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,15 +35,37 @@ public class Actions {
         });
     }
 
-    public <E> E delete(E model, SessionFactory sf) {
+    public <E, A, T> int update(Class<E> cl, SessionFactory sf, Map<String, A> values, Map<String, T> conditions) {
         return tx(sf, session -> {
-            session.delete(model);
-            return model;
+            String newValues = " set ";
+            String val = values.keySet().stream()
+                    .map(a -> a + " = :" + a)
+                    .collect(Collectors.joining(", "));
+            newValues += val;
+
+            String conditionString = " where ";
+            String where = conditions.keySet().stream()
+                    .map(t -> t + " = :" + t)
+                    .collect(Collectors.joining(" and "));
+            conditionString += where;
+            Query query = session.createQuery("update " + cl.getName() + newValues + conditionString);
+            values.entrySet().stream().forEach(e -> query.setParameter(e.getKey(), e.getValue()));
+            conditions.entrySet().stream().forEach(e -> query.setParameter(e.getKey(), e.getValue()));
+            return query.executeUpdate();
         });
     }
 
-    public <E> E findById(Integer id, Class<E> cl, SessionFactory sf) {
-        return tx(sf, session -> session.get(cl, id));
+    public <E, T> int delete(Class<E> cl, SessionFactory sf, Map<String, T> conditions) {
+        return tx(sf, session -> {
+            String conditionString = " where ";
+            String where = conditions.keySet().stream()
+                    .map(t -> t + "= :" + t)
+                    .collect(Collectors.joining(" and "));
+            conditionString += where;
+            Query query = session.createQuery("delete from " + cl.getName() + conditionString);
+            conditions.entrySet().stream().forEach(e -> query.setParameter(e.getKey(), e.getValue()));
+            return query.executeUpdate();
+        });
     }
 
     public <E, T> List<E> findByField(Class<E> cl, SessionFactory sf, String field, T val) {

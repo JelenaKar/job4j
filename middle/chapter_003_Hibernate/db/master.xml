@@ -76,4 +76,18 @@
             TRUNCATE TABLE seller RESTART IDENTITY CASCADE;
         </rollback>
     </changeSet>
+    <changeSet  id="8"  author="lenin">
+        <comment>Create candidate table</comment>
+        <createTable tableName="candidates">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(127)"/>
+            <column name="experience" type="int" defaultValue="0"/>
+            <column name="salary" type="int"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="candidates"/>
+        </rollback>
+    </changeSet>
 </databaseChangeLog>

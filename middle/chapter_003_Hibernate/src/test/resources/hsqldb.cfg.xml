@@ -17,6 +17,7 @@
         <mapping class="ru.job4j.cars.annotations.Driver" />
         <mapping class="ru.job4j.cars.annotations.Engine" />
         <mapping class="ru.job4j.cars.annotations.Car" />
+        <mapping class="ru.job4j.hql.candidates.Candidate" />
 
         <mapping resource="Cars.hbm.xml"/>
     </session-factory>
