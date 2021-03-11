@@ -35,7 +35,7 @@
 <c:if test="${ad.folder != null}">
     <c:forEach items="${ad.folder.photos}" var="photo">
         <a href="<c:url value="/download?folder=${ad.folder.name}&name=${photo.name}"/>" data-fancybox="gallery">
-            <img src="<c:url value="/download?folder=${ad.folder.name}&name=${photo.name}"/>" class="img-responsive img-thumbnail my-thumbnail">
+            <img alt="car photo" src="<c:url value="/download?folder=${ad.folder.name}&name=${photo.name}"/>" class="img-responsive img-thumbnail my-thumbnail">
         </a>
     </c:forEach>
 </c:if>
@@ -89,6 +89,11 @@
 <div>Имя: <c:out value="${ad.seller.name}"/></div>
 <div>Адрес: <c:out value="${ad.seller.address}"/></div>
 <div>Телефон: <c:out value="${ad.seller.phone}"/></div>
-<div><a href="<c:url value="/all"/>" class="btn btn-outline-primary">На главную</a></div>
+<div>
+    <c:if test="${ad.seller.id == current.id && !ad.isSold}">
+        <a href="<c:url value="/update.do?ad=${ad.id}"/>" class="btn btn-outline-info">Редактировать</a>
+    </c:if>
+    <a href="<c:url value="/all"/>" class="btn btn-outline-primary">На главную</a>
+</div>
 </body>
 </html>

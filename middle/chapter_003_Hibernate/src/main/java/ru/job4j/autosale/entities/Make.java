@@ -3,10 +3,6 @@ package ru.job4j.autosale.entities;
 import javax.persistence.*;
 import java.util.Objects;
 
-@NamedQuery(
-        name = "findAllMakes",
-        query = "from ru.job4j.autosale.entities.Make"
-)
 @Entity(name = "make")
 public class Make {
     @Id

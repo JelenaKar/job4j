@@ -70,7 +70,7 @@ public class AdCreateServlet extends HttpServlet {
                 modification, isLeftWheel, mileage, isBroken, color, ownersNumber), price,
                 current, System.currentTimeMillis(), false);
         Ad added = dao.add(newAd, sf);
-        if (!("undefined").equals(folder)) {
+        if (!("").equals(folder)) {
             Folder updated = dao.findByField(Folder.class, sf, "name", folder).get(0);
             updated.setAd(added);
             dao.update(updated, sf);

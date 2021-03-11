@@ -3,6 +3,7 @@ package ru.job4j.autosale.servlets;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.job4j.autosale.entities.Ad;
+import ru.job4j.autosale.entities.Make;
 import ru.job4j.autosale.entities.Seller;
 import ru.job4j.todolist.Actions;
 
@@ -21,8 +22,8 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession sc = req.getSession();
-        //sc.setAttribute("current", dao.findById(1, Seller.class, sf));
         req.setAttribute("ads", dao.findAll(Ad.class, sf));
+        req.setAttribute("makes", dao.findAll(Make.class, sf));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/views/list.jsp");
         requestDispatcher.forward(req, resp);
     }

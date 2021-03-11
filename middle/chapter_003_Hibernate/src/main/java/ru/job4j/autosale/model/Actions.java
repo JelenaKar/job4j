@@ -4,7 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import ru.job4j.autosale.entities.Ad;
 
+import java.time.*;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -62,7 +64,7 @@ public class Actions {
                     .collect(Collectors.joining(" and "));
             conditionString += where;
             Query<E> query = session.createQuery("from " + cl.getName() + conditionString, cl);
-            conditions.entrySet().stream().forEach(e -> query.setParameter(e.getKey(), e.getValue()));
+            conditions.entrySet().forEach(e -> query.setParameter(e.getKey(), e.getValue()));
             return query.list();
         });
     }
@@ -73,6 +75,31 @@ public class Actions {
 
     public <E> List<E> findAll(Class<E> cl, SessionFactory sf, String order) {
         return tx(sf, session -> session.createQuery("from " + cl.getName() + " ORDER BY " + order, cl).list());
+    }
+
+    public List<Ad> getForLastDay(SessionFactory sf) {
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIDNIGHT);
+        long perDay = ZonedDateTime.of(localDateTime, ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return tx(sf, session -> {
+            Query<Ad> query = session.createNamedQuery("Ad_GetForLastDay");
+            query.setParameter("perDay", perDay);
+            return query.list();
+        });
+    }
+
+    public List<Ad> getWithPhotos(SessionFactory sf) {
+        return tx(sf, session -> {
+            Query<Ad> query = session.createNamedQuery("Ad_GetWithPhotos");
+            return query.list();
+        });
+    }
+
+    public List<Ad> getOneBrandOnly(SessionFactory sf, int brandId) {
+        return tx(sf, session -> {
+            Query<Ad> query = session.createNamedQuery("Ad_GetOneBrandOnly");
+            query.setParameter("brandId", brandId);
+            return query.list();
+        });
     }
 
     private <T> T tx(final SessionFactory sf, final Function<Session, T> command) {
@@ -89,4 +116,5 @@ public class Actions {
             session.close();
         }
     }
+
 }

@@ -1,11 +1,21 @@
 package ru.job4j.autosale.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NamedQueries;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "ad")
+@NamedQueries({
+        @NamedQuery(name = "Ad_GetForLastDay",
+                    query = "from ru.job4j.autosale.entities.Ad where created >= :perDay"),
+        @NamedQuery(name = "Ad_GetWithPhotos",
+                query = "select distinct ad from ru.job4j.autosale.entities.Ad ad join ad.folder folder join folder.photos"),
+        @NamedQuery(name = "Ad_GetOneBrandOnly",
+                query = "select ad from ru.job4j.autosale.entities.Ad ad join ad.auto auto where auto.make.id = :brandId"),
+})
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ad_gen")

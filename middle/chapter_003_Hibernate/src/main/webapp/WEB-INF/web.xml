@@ -116,6 +116,14 @@
         <servlet-name>AutosaleLogoutServlet</servlet-name>
         <url-pattern>/out</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdFilterServlet</servlet-name>
+        <servlet-class>ru.job4j.autosale.servlets.AdFilterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdFilterServlet</servlet-name>
+        <url-pattern>/select</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.todolist.AuthFilter</filter-class>

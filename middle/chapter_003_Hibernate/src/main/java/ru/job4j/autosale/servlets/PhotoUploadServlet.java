@@ -39,14 +39,13 @@ public class PhotoUploadServlet extends HttpServlet {
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
-        System.out.println(req.getParameter("folder"));
         try {
             List<FileItem> items = upload.parseRequest(req);
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     Ad ad = ("".equals(req.getParameter("ad"))) ? null : dao.findById(Integer.parseInt(req.getParameter("ad")), Ad.class, sf);
                     Folder folder;
-                    if ("undefined".equals(req.getParameter("folder"))) {
+                    if ("".equals(req.getParameter("folder"))) {
                         folder = Folder.of(RandomStringUtils.randomAlphanumeric(10), ad);
                     } else {
                         folder = dao.findByField(Folder.class, sf, "name", req.getParameter("folder")).get(0);

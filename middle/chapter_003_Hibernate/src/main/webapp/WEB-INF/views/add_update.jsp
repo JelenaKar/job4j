@@ -114,7 +114,7 @@
         <label>Цена</label>
         <input type="text" name="price" value="${ad.price}" required/> руб.
     </div>
-    <div class="my-container">
+    <div class="my-container" data-folder="${ad.folder.name}">
         <c:if test="${ad.folder != null}">
             <c:forEach items="${ad.folder.photos}" var="photo">
                 <div class="text-center photo-container" data-folder="${ad.folder.name}">

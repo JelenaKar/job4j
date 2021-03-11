@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/moment.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/handling.js"></script>
     <title>Продажа автомобилей</title>
 </head>
 <body>
@@ -28,7 +28,17 @@
     </c:choose>
 </div>
 <h5>Список всех объявлений</h5>
-<table class="table table-bordered">
+<div class="text-left">
+    <button id="per-day" class="btn btn-outline-secondary button-filter">За последние сутки</button>
+    <button id="imgs-only" class="btn btn-outline-secondary button-filter">Только с изображениями</button>
+    <select id="brand" name="make_select">
+        <option value="0">Все модели</option>
+        <c:forEach items="${makes}" var="make">
+            <option value="${make.id}"><c:out value="${make.name}"/></option>
+        </c:forEach>
+    </select>
+</div>
+<table id="auto-table" class="table table-bordered">
     <thead>
     <tr>
         <th>Марка</th>
@@ -68,9 +78,6 @@
             </td>
             <td>
                 <a href="<c:url value="/view?ad=${ad.id}"/>" class="btn btn-info">Подробнее</a>
-                <c:if test="${ad.seller.id == current.id && !ad.isSold}">
-                    <a href="<c:url value="/update.do?ad=${ad.id}"/>" class="btn btn-secondary">Редактировать</a>
-                </c:if>
             </td>
         </tr>
     </c:forEach>
